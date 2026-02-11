@@ -10,15 +10,27 @@ interface AIChatProps {
 
 const AIChat: React.FC<AIChatProps> = ({ entries }) => {
   const [messages, setMessages] = useState<Message[]>(() => {
-    const saved = localStorage.getItem('arboria_chat');
-    return saved ? JSON.parse(saved) : [{ role: 'model', text: 'Peace be with you. I remember your recent reflections. How are you carrying them today?' }];
+    try {
+      const saved = localStorage.getItem('arboria_chat');
+      if (saved) {
+        const parsed = JSON.parse(saved) as Message[];
+        return parsed.slice(-50);
+      }
+    } catch {
+      // corrupted data; reset
+    }
+    return [{ role: 'model', text: 'Peace be with you. I remember your recent reflections. How are you carrying them today?' }];
   });
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    localStorage.setItem('arboria_chat', JSON.stringify(messages));
+    try {
+      localStorage.setItem('arboria_chat', JSON.stringify(messages));
+    } catch {
+      // quota exceeded; ignore
+    }
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages]);
 
@@ -33,7 +45,7 @@ const AIChat: React.FC<AIChatProps> = ({ entries }) => {
 
     try {
       const response = await chatWithSpirit(messages, text, entries);
-      setMessages(prev => [...prev, { role: 'model', text: response }]);
+      setMessages(prev => [...prev, { role: 'model' as const, text: response }].slice(-50));
     } catch (error) {
       setMessages(prev => [...prev, { role: 'model', text: 'The spirit is fading... try again later.' }]);
     } finally {

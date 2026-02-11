@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Season, UserProfile, JournalEntry, Ornament } from './types';
+import { Season, UserProfile, JournalEntry, Ornament, ViewType } from './types';
 import { GET_SEASON, SEASON_COLORS } from './constants';
 import TreeScene from './components/TreeScene';
 import BottomNav from './components/BottomNav';
@@ -12,32 +12,39 @@ import ImageGen from './components/ImageGen';
 import Vault from './components/Vault';
 import TreeCollections from './components/TreeCollections';
 
+const DEFAULT_USER: UserProfile = {
+  id: 'USER-777',
+  name: 'Gardener',
+  dewdrops: 500,
+  treeHealth: 85,
+  treeLevel: 1,
+  currentTreeTypeId: 'oak',
+  unlockedTreeTypes: ['oak', 'willow'],
+  ornaments: []
+};
+
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'journal' | 'social' | 'shop' | 'chat' | 'gen' | 'vault' | 'collections'>('home');
+  const [currentView, setCurrentView] = useState<ViewType>('home');
   const [season] = useState<Season>(GET_SEASON());
-  
-  // State quản lý User và Dữ liệu
-  const [user, setUser] = useState<UserProfile>({
-    id: 'USER-777',
-    name: 'Gardener',
-    dewdrops: 500,
-    treeHealth: 85,
-    treeLevel: 1,
-    currentTreeTypeId: 'oak',
-    unlockedTreeTypes: ['oak', 'willow'],
-    ornaments: []
+
+  // Lazy-initialize from localStorage with try/catch
+  const [user, setUser] = useState<UserProfile>(() => {
+    try {
+      const saved = localStorage.getItem('arboria_user');
+      if (saved) return JSON.parse(saved) as UserProfile;
+    } catch { /* corrupt data, use default */ }
+    return DEFAULT_USER;
+  });
+
+  const [entries, setEntries] = useState<JournalEntry[]>(() => {
+    try {
+      const saved = localStorage.getItem('arboria_entries');
+      if (saved) return JSON.parse(saved) as JournalEntry[];
+    } catch { /* corrupt data, use default */ }
+    return [];
   });
 
   const [visualLevel, setVisualLevel] = useState<number>(user.treeLevel);
-  const [entries, setEntries] = useState<JournalEntry[]>([]);
-
-  // Load from localStorage on mount
-  useEffect(() => {
-    const savedUser = localStorage.getItem('arboria_user');
-    const savedEntries = localStorage.getItem('arboria_entries');
-    if (savedUser) setUser(JSON.parse(savedUser));
-    if (savedEntries) setEntries(JSON.parse(savedEntries));
-  }, []);
 
   // Save to localStorage
   useEffect(() => {
@@ -52,20 +59,22 @@ const App: React.FC = () => {
         if (prev < user.treeLevel) return Math.min(user.treeLevel, prev + 0.02);
         return prev;
       });
-    }, 2000); 
+    }, 2000);
     return () => clearInterval(growthInterval);
   }, [user.treeLevel]);
 
   const handleWater = () => {
-    if (user.dewdrops >= 10) {
-      setUser(prev => ({ ...prev, dewdrops: prev.dewdrops - 10, treeHealth: Math.min(100, prev.treeHealth + 15) }));
-    }
+    setUser(prev => {
+      if (prev.dewdrops < 10) return prev;
+      return { ...prev, dewdrops: prev.dewdrops - 10, treeHealth: Math.min(100, prev.treeHealth + 15) };
+    });
   };
 
   const handleFertilize = () => {
-    if (user.dewdrops >= 50) {
-      setUser(prev => ({ ...prev, dewdrops: prev.dewdrops - 50, treeLevel: prev.treeLevel + 1 }));
-    }
+    setUser(prev => {
+      if (prev.dewdrops < 50) return prev;
+      return { ...prev, dewdrops: prev.dewdrops - 50, treeLevel: prev.treeLevel + 1 };
+    });
   };
 
   const theme = SEASON_COLORS[season];
@@ -77,20 +86,20 @@ const App: React.FC = () => {
         {/* pb-28 để nội dung không bị che bởi BottomNav cao hơn (do safe area) */}
         <main className="flex-1 relative overflow-y-auto no-scrollbar pb-28 pt-[env(safe-area-inset-top)]">
           {currentView === 'home' && (
-            <TreeScene 
-              season={season} 
+            <TreeScene
+              season={season}
               user={user}
-              level={visualLevel} 
+              level={visualLevel}
               onWater={handleWater}
               onFertilize={handleFertilize}
-              entries={entries}
               onOpenCollections={() => setCurrentView('collections')}
             />
           )}
           {currentView === 'journal' && (
-            <JournalView 
-              entries={entries} 
+            <JournalView
+              entries={entries}
               currentTreeTypeId={user.currentTreeTypeId}
+              userId={user.id}
               onAddEntry={(entry) => {
                 setEntries([entry, ...entries]);
                 setUser(prev => ({ ...prev, dewdrops: prev.dewdrops + 20 }));

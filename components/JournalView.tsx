@@ -6,10 +6,11 @@ import { JournalEntry } from '../types';
 interface JournalViewProps {
   entries: JournalEntry[];
   currentTreeTypeId: string;
+  userId: string;
   onAddEntry: (entry: JournalEntry) => void;
 }
 
-const JournalView: React.FC<JournalViewProps> = ({ entries, currentTreeTypeId, onAddEntry }) => {
+const JournalView: React.FC<JournalViewProps> = ({ entries, currentTreeTypeId, userId, onAddEntry }) => {
   const [content, setContent] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry | null>(null);
@@ -26,9 +27,10 @@ const JournalView: React.FC<JournalViewProps> = ({ entries, currentTreeTypeId, o
 
   // Check if a specific day has an entry
   const getEntryForDay = (day: number) => {
+    const now = new Date();
     return entries.find(e => {
       const d = new Date(e.date);
-      return d.getDate() === day && d.getMonth() === new Date().getMonth();
+      return d.getDate() === day && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
     });
   };
 
@@ -46,7 +48,7 @@ const JournalView: React.FC<JournalViewProps> = ({ entries, currentTreeTypeId, o
 
       {showCalendar && (
         <div className="bg-slate-50 p-6 rounded-3xl mb-8 grid grid-cols-7 gap-2 animate-in slide-in-from-top-4 relative">
-          {[...Array(30)].map((_, i) => {
+          {[...Array(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate())].map((_, i) => {
             const day = i + 1;
             const entry = getEntryForDay(day);
             const isToday = day === new Date().getDate();
@@ -116,7 +118,7 @@ const JournalView: React.FC<JournalViewProps> = ({ entries, currentTreeTypeId, o
           <button 
             onClick={() => {
               if (content.trim()) {
-                onAddEntry({ id: Date.now().toString(), userId: '1', date: new Date().toISOString(), content, isPublic: false, hashtags: [] });
+                onAddEntry({ id: Date.now().toString(), userId, date: new Date().toISOString(), content, isPublic: false, hashtags: [] });
                 setContent('');
               }
             }}

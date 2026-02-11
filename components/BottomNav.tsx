@@ -1,14 +1,15 @@
 
 import React from 'react';
 import { Trees, PenTool, MessageCircle, Sparkles, Briefcase, ShoppingBag } from 'lucide-react';
+import { ViewType } from '../types';
 
 interface BottomNavProps {
-  activeView: string;
-  onViewChange: (view: any) => void;
+  activeView: ViewType;
+  onViewChange: (view: ViewType) => void;
 }
 
 const BottomNav: React.FC<BottomNavProps> = ({ activeView, onViewChange }) => {
-  const navItems = [
+  const navItems: { id: ViewType; icon: typeof Trees; label: string }[] = [
     { id: 'home', icon: Trees, label: 'Spirit' },
     { id: 'journal', icon: PenTool, label: 'Diary' },
     { id: 'chat', icon: MessageCircle, label: 'Guide' },

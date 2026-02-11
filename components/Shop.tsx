@@ -16,13 +16,40 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
     { id: 'chest', name: 'Ornament Chest', desc: 'Get 3 random AI-forged ornaments.', cost: 350, icon: Package, color: 'text-emerald-500' },
   ];
 
-  const handleBuy = (cost: number) => {
-    if (user.dewdrops >= cost) {
-      setUser(prev => ({ ...prev, dewdrops: prev.dewdrops - cost }));
-      alert("Purchase successful! Arboria thanks you.");
-    } else {
-      alert("Not enough dewdrops! Try journaling more to earn more.");
-    }
+  const handleBuy = (id: string, cost: number) => {
+    setUser(prev => {
+      if (prev.dewdrops < cost) {
+        setTimeout(() => alert("Not enough dewdrops! Try journaling more to earn more."), 0);
+        return prev;
+      }
+
+      const updated = { ...prev, dewdrops: prev.dewdrops - cost };
+
+      switch (id) {
+        case 'super-fert':
+          updated.treeLevel = prev.treeLevel + 1;
+          break;
+        case 'sakura-seed':
+          if (!prev.unlockedTreeTypes.includes('sakura')) {
+            updated.unlockedTreeTypes = [...prev.unlockedTreeTypes, 'sakura'];
+          }
+          break;
+        case 'auto-water':
+          updated.treeHealth = Math.min(prev.treeHealth + 50, 100);
+          break;
+        case 'chest':
+          updated.ornaments = [
+            ...prev.ornaments,
+            { id: `orn-${Date.now()}-1`, url: '', name: 'Mystery Ornament 1', date: new Date().toISOString() },
+            { id: `orn-${Date.now()}-2`, url: '', name: 'Mystery Ornament 2', date: new Date().toISOString() },
+            { id: `orn-${Date.now()}-3`, url: '', name: 'Mystery Ornament 3', date: new Date().toISOString() },
+          ];
+          break;
+      }
+
+      setTimeout(() => alert("Purchase successful! Arboria thanks you."), 0);
+      return updated;
+    });
   };
 
   return (
@@ -42,7 +69,7 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
               <h3 className="text-lg font-bold text-slate-800">{item.name}</h3>
               <p className="text-sm text-slate-500 mt-1">{item.desc}</p>
               <button 
-                onClick={() => handleBuy(item.cost)}
+                onClick={() => handleBuy(item.id, item.cost)}
                 className="mt-4 bg-slate-900 text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-emerald-600 transition-colors flex items-center gap-2"
               >
                 <span>💧 {item.cost}</span>

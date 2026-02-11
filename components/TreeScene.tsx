@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { Season, JournalEntry, UserProfile } from '../types';
+import { Season, UserProfile } from '../types';
 import { SEASON_COLORS } from '../constants';
 import { Droplets, Sprout, LayoutGrid, Zap } from 'lucide-react';
 
@@ -10,11 +10,10 @@ interface TreeSceneProps {
   level: number;
   onWater: () => void;
   onFertilize: () => void;
-  entries: JournalEntry[];
   onOpenCollections: () => void;
 }
 
-const TreeScene: React.FC<TreeSceneProps> = ({ season, user, level, onWater, onFertilize, entries, onOpenCollections }) => {
+const TreeScene: React.FC<TreeSceneProps> = ({ season, user, level, onWater, onFertilize, onOpenCollections }) => {
   const theme = SEASON_COLORS[season];
   const health = user.treeHealth;
   
@@ -24,32 +23,42 @@ const TreeScene: React.FC<TreeSceneProps> = ({ season, user, level, onWater, onF
   const trunkHeight = Math.min(60 + growthHeight, 180);
   const trunkTopY = trunkBaseY - trunkHeight;
 
+  // Seeded PRNG for deterministic tree rendering
+  const seededRandom = (seed: number) => {
+    let s = seed;
+    return () => {
+      s = (s * 16807 + 0) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  };
+
   // Logic tạo cành và lá rõ ràng
   const treeStructure = useMemo(() => {
+    const rng = seededRandom(Math.floor(level * 1000) + Math.floor(health));
     const branches = [];
     const leaves = [];
     const isWithered = health < 30;
-    
+
     // 1. Tạo cành chính và cành phụ dựa trên Level
     const branchCount = Math.floor(2 + level * 1.5);
     for (let i = 0; i < branchCount; i++) {
       const angle = (i / branchCount) * Math.PI * 1.5 - Math.PI * 0.75;
       const length = 20 + level * 8;
       const bx = 100 + Math.sin(angle) * length;
-      const by = trunkTopY - Math.cos(angle) * (length * 0.5) + (Math.random() * 20);
+      const by = trunkTopY - Math.cos(angle) * (length * 0.5) + (rng() * 20);
       branches.push({ x1: 100, y1: trunkTopY + 20, x2: bx, y2: by });
 
       // 2. Tạo các cụm lá rõ rệt trên mỗi cành
       const leafDensity = isWithered ? 3 : Math.floor(10 + level * 4);
       for (let j = 0; j < leafDensity; j++) {
-        const la = Math.random() * Math.PI * 2;
-        const lr = Math.random() * (15 + level * 5);
+        const la = rng() * Math.PI * 2;
+        const lr = rng() * (15 + level * 5);
         leaves.push({
           cx: bx + Math.cos(la) * lr,
           cy: by + Math.sin(la) * lr,
-          rotation: Math.random() * 360,
-          scale: 0.6 + Math.random() * 0.6,
-          delay: Math.random() * 2
+          rotation: rng() * 360,
+          scale: 0.6 + rng() * 0.6,
+          delay: rng() * 2
         });
       }
     }
@@ -209,7 +218,7 @@ const TreeScene: React.FC<TreeSceneProps> = ({ season, user, level, onWater, onF
                 animationDelay: `${i * 0.2}s`
               }}
             >
-              <img src={orn.url} className="w-full h-full rounded-full border-2 border-white shadow-lg transform hover:scale-125 transition-transform" />
+              <img src={orn.url} alt={orn.name} className="w-full h-full rounded-full border-2 border-white shadow-lg transform hover:scale-125 transition-transform" />
             </div>
           ))}
         </div>

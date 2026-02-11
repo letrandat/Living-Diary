@@ -3,7 +3,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { Message, ImageSize, JournalEntry } from "../types";
 
 export const getGeminiClient = () => {
-  return new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+  return new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
 };
 
 export const generateOrnament = async (prompt: string, size: ImageSize): Promise<string | null> => {
@@ -19,7 +19,8 @@ export const generateOrnament = async (prompt: string, size: ImageSize): Promise
       },
     });
 
-    for (const part of response.candidates[0].content.parts) {
+    const parts = response?.candidates?.[0]?.content?.parts ?? [];
+    for (const part of parts) {
       if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
     }
     return null;
@@ -34,8 +35,14 @@ export const chatWithSpirit = async (history: Message[], userInput: string, jour
   // RAG: Trích xuất nội dung nhật ký gần nhất để AI có bối cảnh
   const context = journalEntries.slice(0, 3).map(e => e.content).join("\n");
   
+  const geminiHistory = history.map(msg => ({
+    role: msg.role,
+    parts: [{ text: msg.text }]
+  }));
+
   const chat = ai.chats.create({
     model: 'gemini-3-pro-preview',
+    history: geminiHistory,
     config: {
       systemInstruction: `You are the Arboria Spirit. You have access to the user's recent thoughts: "${context}". Use this memory to provide deeply personal, empathetic, and poetic guidance. Always remember what they wrote in their diary to act as a true mentor.`,
     },
