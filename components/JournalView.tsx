@@ -67,7 +67,7 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
           {Array.from({ length: daysInMonth }, (_, i) => {
             const day = i + 1;
             const entry = getEntryForDay(day);
-            const isToday = day === new Date().getDate();
+            const isToday = day === now.getDate();
 
             return (
               <button

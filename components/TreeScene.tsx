@@ -61,7 +61,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
     return { branches, leaves };
   }, [level, health, trunkTopY]);
 
-  const treeName = user.currentTreeTypeId.toUpperCase() || 'MY TREE';
+  const treeName = user.currentTreeTypeId.toUpperCase();
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-start pt-24 relative overflow-hidden">
@@ -211,7 +211,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
       </div>
 
       <div className="mt-4 text-center z-10 pointer-events-none">
-        <h2 className={`text-4xl font-black ${seasonTheme.accent} handwritten drop-shadow-sm`}>
+        <h2 className="text-4xl font-black handwritten drop-shadow-sm" style={{ color: seasonTheme.accent }}>
           {treeName}
         </h2>
         <div className="flex items-center justify-center gap-2 mt-1">

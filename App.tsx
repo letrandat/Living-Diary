@@ -21,6 +21,7 @@ function App(): ReactElement {
   const [entries, setEntries] = useLocalStorage<JournalEntry[]>('arboria_entries', []);
 
   const [visualLevel, setVisualLevel] = useState<number>(user.treeLevel);
+  const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
     const growthInterval = setInterval(() => {
@@ -33,18 +34,26 @@ function App(): ReactElement {
     return () => clearInterval(growthInterval);
   }, [user.treeLevel]);
 
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 2500);
+    return () => clearTimeout(t);
+  }, [toast]);
+
   function handleWater(): void {
-    setUser(prev => {
-      if (prev.dewdrops < 10) return prev;
-      return { ...prev, dewdrops: prev.dewdrops - 10, treeHealth: Math.min(100, prev.treeHealth + 15) };
-    });
+    if (user.dewdrops < 10) {
+      setToast('Not enough dewdrops to water!');
+      return;
+    }
+    setUser(prev => ({ ...prev, dewdrops: prev.dewdrops - 10, treeHealth: Math.min(100, prev.treeHealth + 15) }));
   }
 
   function handleFertilize(): void {
-    setUser(prev => {
-      if (prev.dewdrops < 50) return prev;
-      return { ...prev, dewdrops: prev.dewdrops - 50, treeLevel: prev.treeLevel + 1 };
-    });
+    if (user.dewdrops < 50) {
+      setToast('Not enough dewdrops to fertilize!');
+      return;
+    }
+    setUser(prev => ({ ...prev, dewdrops: prev.dewdrops - 50, treeLevel: prev.treeLevel + 1 }));
   }
 
   function handleAddEntry(entry: JournalEntry): void {
@@ -92,6 +101,13 @@ function App(): ReactElement {
 
         <BottomNav activeView={currentView} onViewChange={setCurrentView} />
       </div>
+
+      {toast && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[200] bg-[var(--bg-elevated)] backdrop-blur-2xl text-[var(--text-primary)] border border-[var(--border-strong)] px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm animate-fade-up flex items-center gap-3">
+          <span>{toast}</span>
+          <button onClick={() => setToast(null)} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] ml-2">&times;</button>
+        </div>
+      )}
     </div>
   );
 }
