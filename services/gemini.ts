@@ -1,0 +1,46 @@
+
+import { GoogleGenAI, Type } from "@google/genai";
+import { Message, ImageSize, JournalEntry } from "../types";
+
+export const getGeminiClient = () => {
+  return new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+};
+
+export const generateOrnament = async (prompt: string, size: ImageSize): Promise<string | null> => {
+  const ai = getGeminiClient();
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-image-preview',
+      contents: {
+        parts: [{ text: `Create a single, beautiful 3D hanging tree ornament. Topic: ${prompt}. The ornament should be magical, intricate, on a plain white background, suitable for a fantasy tree.` }],
+      },
+      config: {
+        imageConfig: { aspectRatio: "1:1", imageSize: size }
+      },
+    });
+
+    for (const part of response.candidates[0].content.parts) {
+      if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const chatWithSpirit = async (history: Message[], userInput: string, journalEntries: JournalEntry[]): Promise<string> => {
+  const ai = getGeminiClient();
+  
+  // RAG: Trích xuất nội dung nhật ký gần nhất để AI có bối cảnh
+  const context = journalEntries.slice(0, 3).map(e => e.content).join("\n");
+  
+  const chat = ai.chats.create({
+    model: 'gemini-3-pro-preview',
+    config: {
+      systemInstruction: `You are the Arboria Spirit. You have access to the user's recent thoughts: "${context}". Use this memory to provide deeply personal, empathetic, and poetic guidance. Always remember what they wrote in their diary to act as a true mentor.`,
+    },
+  });
+
+  const response = await chat.sendMessage({ message: userInput });
+  return response.text || "The winds are quiet now. Tell me more.";
+};

@@ -1,0 +1,8 @@
+{
+  "name": "Arboria: The Living Diary",
+  "description": "A gamified journaling application where your entries nurture a virtual tree that changes with the seasons. Connect with friends, send anonymous letters, and use Gemini AI to generate custom ornaments and chat with your tree's spirit.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
