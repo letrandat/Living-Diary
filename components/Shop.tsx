@@ -67,7 +67,7 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
     <div className="w-full h-full p-6 overflow-y-auto">
       <div className="flex items-center gap-4 mb-10">
         <ShoppingCart size={32} className="text-[var(--accent)]" />
-        <h2 className="text-3xl font-bold text-[var(--text-primary)] heading">Green Market</h2>
+        <h2 className="text-3xl font-black text-[var(--text-primary)] heading">Green Market</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -94,7 +94,7 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
       <div className="mt-12 border border-[var(--border)] rounded-[3rem] p-10 text-[var(--text-primary)] flex flex-col items-center text-center shadow-2xl" style={{ background: 'linear-gradient(to right, var(--accent-bg), var(--secondary-bg))' }}>
         <h3 className="text-2xl font-bold mb-4">Out of Dewdrops?</h3>
         <p className="opacity-90 max-w-md mb-8">Support the growth of Arboria by purchasing dewdrop bundles or subscribing for premium seasonal themes.</p>
-        <button className="bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-strong)] px-10 py-4 rounded-full font-black text-lg hover:bg-[var(--bg-surface-hover)] hover:scale-105 transition-all shadow-xl">
+        <button aria-label="Purchase dewdrop bundles" className="bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-strong)] px-10 py-4 rounded-full font-black text-lg hover:bg-[var(--bg-surface-hover)] hover:scale-105 transition-all shadow-xl">
           Purchase Bundles
         </button>
       </div>
@@ -102,7 +102,7 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
       {toast && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[var(--bg-elevated)] backdrop-blur-2xl text-[var(--text-primary)] border border-[var(--border-strong)] px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm animate-in slide-in-from-bottom-4 flex items-center gap-3">
           <span>{toast}</span>
-          <button onClick={() => setToast(null)} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] ml-2">&times;</button>
+          <button onClick={() => setToast(null)} aria-label="Dismiss notification" className="text-[var(--text-muted)] hover:text-[var(--text-primary)] ml-2">&times;</button>
         </div>
       )}
     </div>

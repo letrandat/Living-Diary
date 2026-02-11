@@ -58,7 +58,7 @@ function AIChat({ entries }: AIChatProps): ReactElement {
           </div>
         ))}
         {isTyping && (
-          <div className="flex justify-start">
+          <div className="flex justify-start" role="status" aria-label="Spirit is typing">
             <div className="bg-[var(--bg-surface)] rounded-3xl rounded-tl-none border border-[var(--border)] p-4 flex gap-1.5">
               <span className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />

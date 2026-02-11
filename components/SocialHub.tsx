@@ -91,6 +91,7 @@ function SocialHub(): ReactElement {
           <h3 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest">Global Echoes</h3>
           {filteredFeeds.map(post => {
             const isLiked = likedPosts.has(post.id);
+            const avatarColor = getAvatarColor(post.user);
             return (
               <div
                 key={post.id}
@@ -99,7 +100,7 @@ function SocialHub(): ReactElement {
                 <div className="flex items-center gap-3 mb-3">
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm"
-                    style={{ background: getAvatarColor(post.user).bg, color: getAvatarColor(post.user).text }}
+                    style={{ background: avatarColor.bg, color: avatarColor.text }}
                   >
                     {post.user[0]}
                   </div>
@@ -129,7 +130,7 @@ function SocialHub(): ReactElement {
                     onClick={() => toggleLike(post.id)}
                     data-testid={`like-${post.id}`}
                     aria-label={`Like ${post.user}'s post`}
-                    className={`flex items-center gap-1.5 text-sm transition-colors ${isLiked ? 'text-pink-400' : 'text-[var(--text-muted)] hover:text-pink-400'}`}
+                    className={`flex items-center gap-1.5 text-sm transition-colors ${isLiked ? 'text-[var(--danger)]' : 'text-[var(--text-muted)] hover:text-[var(--danger)]'}`}
                   >
                     <Heart size={16} fill={isLiked ? 'currentColor' : 'none'} />
                     <span className="text-xs font-bold">{post.likes + (isLiked ? 1 : 0)}</span>
@@ -138,7 +139,7 @@ function SocialHub(): ReactElement {
                     <MessageCircle size={16} />
                     <span className="text-xs font-bold">Reply</span>
                   </button>
-                  <button aria-label={`Send gift to ${post.user}`} className="flex items-center gap-1.5 text-[var(--text-muted)] hover:text-amber-400 transition-colors">
+                  <button aria-label={`Send gift to ${post.user}`} className="flex items-center gap-1.5 text-[var(--text-muted)] hover:text-[var(--warning)] transition-colors">
                     <Gift size={16} />
                     <span className="text-xs font-bold">Gift</span>
                   </button>
@@ -179,26 +180,29 @@ function SocialHub(): ReactElement {
         <div>
           <h3 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest mb-4">Top Gardeners</h3>
           <div className="bg-[var(--bg-surface)] rounded-3xl border border-[var(--border)] overflow-hidden">
-            {LEADERBOARD.map((gardener, i) => (
-              <div
-                key={gardener.rank}
-                className={`flex items-center gap-4 px-5 py-4 ${i < LEADERBOARD.length - 1 ? 'border-b border-[var(--border)]' : ''}`}
-              >
-                <span className="text-lg font-black text-[var(--text-muted)] w-6 text-center">
-                  {getMedal(gardener.rank)}
-                </span>
+            {LEADERBOARD.map((gardener, i) => {
+              const avatarColor = getAvatarColor(gardener.name);
+              return (
                 <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm"
-                  style={{ background: getAvatarColor(gardener.name).bg, color: getAvatarColor(gardener.name).text }}
+                  key={gardener.rank}
+                  className={`flex items-center gap-4 px-5 py-4 ${i < LEADERBOARD.length - 1 ? 'border-b border-[var(--border)]' : ''}`}
                 >
-                  {gardener.name[0]}
-                </div>
+                  <span className="text-lg font-black text-[var(--text-muted)] w-6 text-center">
+                    {getMedal(gardener.rank)}
+                  </span>
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm"
+                    style={{ background: avatarColor.bg, color: avatarColor.text }}
+                  >
+                    {gardener.name[0]}
+                  </div>
                 <span className="flex-1 text-sm font-bold text-[var(--text-primary)]">{gardener.name}</span>
                 <span className="text-xs font-black text-[var(--accent)] bg-[var(--accent-bg)] px-3 py-1 rounded-full">
                   LVL {gardener.level}
                 </span>
               </div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </div>
