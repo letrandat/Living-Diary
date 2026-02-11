@@ -196,11 +196,11 @@ function SocialHub(): ReactElement {
                   >
                     {gardener.name[0]}
                   </div>
-                <span className="flex-1 text-sm font-bold text-[var(--text-primary)]">{gardener.name}</span>
-                <span className="text-xs font-black text-[var(--accent)] bg-[var(--accent-bg)] px-3 py-1 rounded-full">
-                  LVL {gardener.level}
-                </span>
-              </div>
+                  <span className="flex-1 text-sm font-bold text-[var(--text-primary)]">{gardener.name}</span>
+                  <span className="text-xs font-black text-[var(--accent)] bg-[var(--accent-bg)] px-3 py-1 rounded-full">
+                    LVL {gardener.level}
+                  </span>
+                </div>
             );
             })}
           </div>

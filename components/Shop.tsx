@@ -92,7 +92,7 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
       </div>
 
       <div className="mt-12 border border-[var(--border)] rounded-[3rem] p-10 text-[var(--text-primary)] flex flex-col items-center text-center shadow-2xl" style={{ background: 'linear-gradient(to right, var(--accent-bg), var(--secondary-bg))' }}>
-        <h3 className="text-2xl font-bold mb-4">Out of Dewdrops?</h3>
+        <h3 className="text-2xl font-black mb-4">Out of Dewdrops?</h3>
         <p className="opacity-90 max-w-md mb-8">Support the growth of Arboria by purchasing dewdrop bundles or subscribing for premium seasonal themes.</p>
         <button aria-label="Purchase dewdrop bundles" className="bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-strong)] px-10 py-4 rounded-full font-black text-lg hover:bg-[var(--bg-surface-hover)] hover:scale-105 transition-all shadow-xl">
           Purchase Bundles

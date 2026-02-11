@@ -56,6 +56,7 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
         <h2 className="text-3xl font-black text-[var(--text-primary)] heading">Daily Roots</h2>
         <button
           onClick={() => setShowCalendar(!showCalendar)}
+          aria-label={showCalendar ? 'Hide calendar' : 'Show calendar'}
           className={`p-3 rounded-2xl transition-colors ${showCalendar ? 'bg-[var(--accent-bg)] text-[var(--accent)]' : 'bg-[var(--bg-surface)] text-[var(--text-secondary)]'}`}
         >
           <CalendarIcon size={20} />
@@ -73,6 +74,7 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
               <button
                 key={day}
                 onClick={() => entry && setSelectedEntry(entry)}
+                aria-label={`${now.toLocaleDateString(undefined, { month: 'long' })} ${day}${entry ? ', has entry' : ''}${isToday ? ', today' : ''}`}
                 className={`h-12 flex flex-col items-center justify-center rounded-xl transition-all relative
                   ${isToday ? 'border-2 border-[var(--accent-border)]' : ''}
                   ${entry ? 'bg-[var(--bg-surface-hover)] active:scale-95' : 'bg-[var(--bg-surface)] text-[var(--text-muted)]'}`}
@@ -94,6 +96,7 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
              <div className="absolute top-0 left-0 w-full h-2 bg-[var(--accent)]" />
              <button
               onClick={() => setSelectedEntry(null)}
+              aria-label="Close entry"
               className="absolute top-6 right-6 p-2 bg-[var(--bg-surface-hover)] rounded-full text-[var(--text-secondary)]"
              >
                <X size={18} />
@@ -101,7 +104,7 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
 
              <div className="mb-6">
                 <p className="text-[10px] font-black text-[var(--accent)] uppercase tracking-widest mb-1">Spirit Memory</p>
-                <h3 className="text-xl font-bold text-[var(--text-primary)]">
+                <h3 className="text-xl font-black text-[var(--text-primary)]">
                   {new Date(selectedEntry.date).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })}
                 </h3>
              </div>
@@ -125,11 +128,13 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Speak to your tree..."
+          aria-label="Journal entry"
           className="w-full h-40 bg-transparent border-none focus:ring-0 text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none font-medium"
         />
         <div className="flex items-center justify-end mt-4">
           <button
             onClick={handleSubmit}
+            aria-label="Plant journal entry"
             className="px-6 py-3 bg-[var(--accent)] text-[var(--text-inverse)] rounded-2xl font-black flex items-center gap-2"
             style={{ boxShadow: 'var(--shadow-accent)' }}
           >

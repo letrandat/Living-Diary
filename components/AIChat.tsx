@@ -11,6 +11,11 @@ interface AIChatProps {
 
 const DEFAULT_MESSAGE: Message = { role: 'model', text: 'Peace be with you. I remember your recent reflections. How are you carrying them today?' };
 
+const BUBBLE_STYLES: Record<Message['role'], string> = {
+  user: 'bg-[var(--accent-bg)] text-[var(--text-primary)] rounded-tr-none border border-[var(--accent-border)]',
+  model: 'bg-[var(--bg-surface)] rounded-tl-none text-[var(--text-secondary)] border border-[var(--border)]',
+};
+
 function AIChat({ entries }: AIChatProps): ReactElement {
   const [messages, setMessages] = useLocalStorage<Message[]>('arboria_chat', [DEFAULT_MESSAGE]);
   const [input, setInput] = useState('');
@@ -52,7 +57,7 @@ function AIChat({ entries }: AIChatProps): ReactElement {
       <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-4 pr-2">
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] p-4 rounded-3xl ${msg.role === 'user' ? 'bg-[var(--accent-bg)] text-[var(--text-primary)] rounded-tr-none border border-[var(--accent-border)]' : 'bg-[var(--bg-surface)] rounded-tl-none text-[var(--text-secondary)] border border-[var(--border)]'}`}>
+            <div className={`max-w-[85%] p-4 rounded-3xl ${BUBBLE_STYLES[msg.role]}`}>
               <p className="text-sm leading-relaxed">{msg.text}</p>
             </div>
           </div>
@@ -60,9 +65,9 @@ function AIChat({ entries }: AIChatProps): ReactElement {
         {isTyping && (
           <div className="flex justify-start" role="status" aria-label="Spirit is typing">
             <div className="bg-[var(--bg-surface)] rounded-3xl rounded-tl-none border border-[var(--border)] p-4 flex gap-1.5">
-              <span className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              {[0, 150, 300].map(delay => (
+                <span key={delay} className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: `${delay}ms` }} />
+              ))}
             </div>
           </div>
         )}

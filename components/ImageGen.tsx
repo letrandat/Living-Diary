@@ -72,6 +72,7 @@ function ImageGen({ onGenerated }: ImageGenProps): ReactElement {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Describe your ornament (e.g. A blue crystal heart)"
+          aria-label="Ornament description"
           className="w-full p-5 bg-[var(--bg-surface)] rounded-2xl border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-[var(--accent-border)]"
         />
         <button
