@@ -9,10 +9,10 @@ interface ShopProps {
 }
 
 const SHOP_ITEMS = [
-  { id: 'auto-water', name: 'Auto-Water Sprite', desc: 'Waters your tree for 24 hours automatically.', cost: 200, icon: Droplets, color: 'text-blue-500' },
-  { id: 'super-fert', name: 'Golden Fertilizer', desc: 'Instantly increases tree level by 1.', cost: 500, icon: Zap, color: 'text-amber-500' },
-  { id: 'sakura-seed', name: 'Sakura Essence', desc: 'Unlocks the Pink Cherry Blossom theme.', cost: 1000, icon: Wind, color: 'text-pink-500' },
-  { id: 'chest', name: 'Ornament Chest', desc: 'Get 3 random AI-forged ornaments.', cost: 350, icon: Package, color: 'text-emerald-500' },
+  { id: 'auto-water', name: 'Auto-Water Sprite', desc: 'Waters your tree for 24 hours automatically.', cost: 200, icon: Droplets, color: 'text-cyan-400' },
+  { id: 'super-fert', name: 'Golden Fertilizer', desc: 'Instantly increases tree level by 1.', cost: 500, icon: Zap, color: 'text-amber-400' },
+  { id: 'sakura-seed', name: 'Sakura Essence', desc: 'Unlocks the Pink Cherry Blossom theme.', cost: 1000, icon: Wind, color: 'text-pink-400' },
+  { id: 'chest', name: 'Ornament Chest', desc: 'Get 3 random AI-forged ornaments.', cost: 350, icon: Package, color: 'text-emerald-400' },
 ] as const;
 
 function Shop({ user, setUser }: ShopProps): ReactElement {
@@ -64,24 +64,24 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
   }
 
   return (
-    <div className="w-full h-full p-8 overflow-y-auto">
+    <div className="w-full h-full p-6 overflow-y-auto">
       <div className="flex items-center gap-4 mb-10">
-        <ShoppingCart size={32} className="text-emerald-700" />
-        <h2 className="text-3xl font-bold text-emerald-900">Green Market</h2>
+        <ShoppingCart size={32} className="text-purple-400" />
+        <h2 className="text-3xl font-bold text-white">Green Market</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {SHOP_ITEMS.map(item => (
-          <div key={item.id} className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex items-start gap-6 hover:shadow-xl transition-all group">
-            <div className={`w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
+          <div key={item.id} className="bg-white/[0.03] rounded-3xl p-6 border border-white/[0.06] flex items-start gap-6 hover:bg-white/[0.06] transition-all group">
+            <div className={`w-16 h-16 rounded-2xl bg-white/[0.04] flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
               <item.icon size={32} />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-slate-800">{item.name}</h3>
-              <p className="text-sm text-slate-500 mt-1">{item.desc}</p>
+              <h3 className="text-lg font-bold text-white">{item.name}</h3>
+              <p className="text-sm text-slate-400 mt-1">{item.desc}</p>
               <button
                 onClick={() => handleBuy(item.id, item.cost)}
-                className="mt-4 bg-slate-900 text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-emerald-600 transition-colors flex items-center gap-2"
+                className="mt-4 bg-purple-500/20 text-purple-300 px-6 py-2 rounded-full font-bold text-sm hover:bg-purple-500/30 border border-purple-500/20 transition-colors flex items-center gap-2"
               >
                 <span>💧 {item.cost}</span>
               </button>
@@ -90,16 +90,16 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
         ))}
       </div>
 
-      <div className="mt-12 bg-emerald-600 rounded-[3rem] p-10 text-white flex flex-col items-center text-center shadow-2xl">
+      <div className="mt-12 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-white/[0.06] rounded-[3rem] p-10 text-white flex flex-col items-center text-center shadow-2xl">
         <h3 className="text-2xl font-bold mb-4">Out of Dewdrops?</h3>
         <p className="opacity-90 max-w-md mb-8">Support the growth of Arboria by purchasing dewdrop bundles or subscribing for premium seasonal themes.</p>
-        <button className="bg-white text-emerald-700 px-10 py-4 rounded-full font-black text-lg hover:scale-105 transition-all shadow-xl">
+        <button className="bg-white/[0.08] text-white border border-white/[0.1] px-10 py-4 rounded-full font-black text-lg hover:bg-white/[0.12] hover:scale-105 transition-all shadow-xl">
           Purchase Bundles
         </button>
       </div>
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm animate-in slide-in-from-bottom-4 flex items-center gap-3">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-white/[0.08] backdrop-blur-2xl text-white border border-white/[0.1] px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm animate-in slide-in-from-bottom-4 flex items-center gap-3">
           <span>{toast}</span>
           <button onClick={() => setToast(null)} className="text-white/60 hover:text-white ml-2">&times;</button>
         </div>
