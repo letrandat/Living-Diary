@@ -1,6 +1,6 @@
 
 import type { ReactElement } from 'react';
-import { UserProfile, TreeType } from '../types';
+import type { UserProfile, TreeType } from '../types';
 import { ArrowLeft, Check, Lock } from 'lucide-react';
 
 interface TreeCollectionsProps {

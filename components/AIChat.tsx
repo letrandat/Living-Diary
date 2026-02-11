@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect, type ReactElement } from 'react';
-import { Message, JournalEntry } from '../types';
+import type { Message, JournalEntry } from '../types';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { chatWithSpirit } from '../services/gemini';
 import { Send, Sparkles } from 'lucide-react';
@@ -32,9 +32,11 @@ function AIChat({ entries }: AIChatProps): ReactElement {
 
     try {
       const response = await chatWithSpirit(messages, text, entries);
-      setMessages(prev => [...prev, { role: 'model' as const, text: response }].slice(-50));
+      const reply: Message = { role: 'model', text: response };
+      setMessages(prev => [...prev, reply].slice(-50));
     } catch {
-      setMessages(prev => [...prev, { role: 'model' as const, text: 'The spirit is fading... try again later.' }]);
+      const fallback: Message = { role: 'model', text: 'The spirit is fading... try again later.' };
+      setMessages(prev => [...prev, fallback]);
     } finally {
       setIsTyping(false);
     }

@@ -1,7 +1,7 @@
 
 import type { ReactElement } from 'react';
 import { Trees, PenTool, MessageCircle, Sparkles, Briefcase, ShoppingBag } from 'lucide-react';
-import { ViewType } from '../types';
+import type { ViewType } from '../types';
 
 interface BottomNavProps {
   activeView: ViewType;

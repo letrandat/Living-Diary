@@ -1,6 +1,6 @@
 
 import { GoogleGenAI } from "@google/genai";
-import { Message, ImageSize, JournalEntry } from "../types";
+import type { Message, ImageSize, JournalEntry } from "../types";
 
 export function getGeminiClient(): GoogleGenAI {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;

@@ -2,7 +2,7 @@
 import { useState, type ReactElement } from 'react';
 import { Sparkles, Loader2, Info } from 'lucide-react';
 import { generateOrnament } from '../services/gemini';
-import { Ornament } from '../types';
+import type { Ornament } from '../types';
 
 interface ImageGenProps {
   onGenerated: (ornament: Ornament) => void;

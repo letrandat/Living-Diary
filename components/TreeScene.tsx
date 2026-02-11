@@ -1,6 +1,6 @@
 
 import { useMemo, type ReactElement } from 'react';
-import { Season, UserProfile } from '../types';
+import { Season, type UserProfile } from '../types';
 import { Droplets, Sprout, LayoutGrid, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 

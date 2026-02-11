@@ -1,7 +1,7 @@
 
 import { useState, useEffect, type ReactElement } from 'react';
 import { ShoppingCart, Zap, Droplets, Wind, Package } from 'lucide-react';
-import { UserProfile } from '../types';
+import type { UserProfile } from '../types';
 
 interface ShopProps {
   user: UserProfile;

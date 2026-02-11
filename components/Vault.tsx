@@ -1,6 +1,6 @@
 
 import type { ReactElement } from 'react';
-import { UserProfile } from '../types';
+import type { UserProfile } from '../types';
 import { Package, Calendar } from 'lucide-react';
 
 interface VaultProps {

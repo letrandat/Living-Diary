@@ -1,7 +1,7 @@
 
 import { useState, type ReactElement } from 'react';
 import { Send, Calendar as CalendarIcon, Trees, X } from 'lucide-react';
-import { JournalEntry } from '../types';
+import type { JournalEntry } from '../types';
 
 interface JournalViewProps {
   entries: JournalEntry[];

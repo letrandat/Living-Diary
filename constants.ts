@@ -1,5 +1,5 @@
 
-import { Season, UserProfile } from './types';
+import { Season, type UserProfile } from './types';
 
 export function getSeason(): Season {
   const month = new Date().getMonth();

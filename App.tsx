@@ -1,6 +1,6 @@
 
 import { useState, useEffect, type ReactElement } from 'react';
-import { Season, UserProfile, JournalEntry, Ornament, ViewType } from './types';
+import type { Season, UserProfile, JournalEntry, Ornament, ViewType } from './types';
 import { getSeason, SEASON_COLORS, DEFAULT_USER } from './constants';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useTheme } from './hooks/useTheme';
