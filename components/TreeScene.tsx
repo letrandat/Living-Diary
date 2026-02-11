@@ -3,6 +3,7 @@ import { useMemo, type ReactElement } from 'react';
 import { Season, type UserProfile } from '../types';
 import { Droplets, Sprout, LayoutGrid, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
+import { seededRandom } from '../utils/seededRandom';
 
 interface TreeSceneProps {
   season: Season;
@@ -12,14 +13,6 @@ interface TreeSceneProps {
   onWater: () => void;
   onFertilize: () => void;
   onOpenCollections: () => void;
-}
-
-function seededRandom(seed: number): () => number {
-  let s = seed;
-  return () => {
-    s = (s * 16807) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
 }
 
 function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onOpenCollections }: TreeSceneProps): ReactElement {

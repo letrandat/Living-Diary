@@ -40,6 +40,8 @@ export interface UserProfile {
   ornaments: Ornament[];
 }
 
+export type UserProfileSetter = React.Dispatch<React.SetStateAction<UserProfile>>;
+
 export interface Message {
   role: 'user' | 'model';
   text: string;

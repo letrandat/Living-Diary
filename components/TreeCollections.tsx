@@ -1,11 +1,11 @@
 
 import type { ReactElement } from 'react';
-import type { UserProfile, TreeType } from '../types';
+import type { UserProfile, UserProfileSetter, TreeType } from '../types';
 import { ArrowLeft, Check, Lock } from 'lucide-react';
 
 interface TreeCollectionsProps {
   user: UserProfile;
-  setUser: React.Dispatch<React.SetStateAction<UserProfile>>;
+  setUser: UserProfileSetter;
   onBack: () => void;
 }
 
@@ -19,6 +19,12 @@ function getCardStyle(isSelected: boolean, isUnlocked: boolean): string {
   if (isSelected) return 'border-[var(--accent-border)] bg-[var(--accent-bg)]';
   if (isUnlocked) return 'border-[var(--border)] bg-[var(--bg-surface)]';
   return 'border-[var(--border)] bg-[var(--bg-surface)] opacity-40';
+}
+
+function getStatusSuffix(isSelected: boolean, isUnlocked: boolean): string {
+  if (isSelected) return ' (selected)';
+  if (!isUnlocked) return ' (locked)';
+  return '';
 }
 
 function StatusIcon({ isSelected, isUnlocked }: { isSelected: boolean; isUnlocked: boolean }): ReactElement | null {
@@ -52,7 +58,7 @@ function TreeCollections({ user, setUser, onBack }: TreeCollectionsProps): React
             <button
               key={tree.id}
               onClick={() => handleSelect(tree.id)}
-              aria-label={`${tree.name}: ${tree.description}${isSelected ? ' (selected)' : isUnlocked ? '' : ' (locked)'}`}
+              aria-label={`${tree.name}: ${tree.description}${getStatusSuffix(isSelected, isUnlocked)}`}
               disabled={!isUnlocked}
               className={`w-full text-left p-6 rounded-[2.5rem] border-2 transition-all cursor-pointer ${getCardStyle(isSelected, isUnlocked)}`}
             >

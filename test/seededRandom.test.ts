@@ -1,16 +1,5 @@
 import { describe, it, expect } from 'vitest';
-
-/**
- * Reimplementation of the seededRandom algorithm from components/TreeScene.tsx.
- * The original is not exported, so we test the algorithm directly.
- */
-function seededRandom(seed: number): () => number {
-  let s = seed;
-  return () => {
-    s = (s * 16807) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
+import { seededRandom } from '../utils/seededRandom';
 
 describe('seededRandom', () => {
   it('returns values between 0 and 1', () => {

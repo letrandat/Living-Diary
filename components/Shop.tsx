@@ -1,11 +1,11 @@
 
 import { useState, useEffect, type ReactElement } from 'react';
 import { ShoppingCart, Zap, Droplets, Wind, Package } from 'lucide-react';
-import type { UserProfile } from '../types';
+import type { UserProfile, UserProfileSetter } from '../types';
 
 interface ShopProps {
   user: UserProfile;
-  setUser: React.Dispatch<React.SetStateAction<UserProfile>>;
+  setUser: UserProfileSetter;
 }
 
 const SHOP_ITEMS = [

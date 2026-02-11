@@ -19,20 +19,20 @@ function getStampColor(treeTypeId: string): string {
   }
 }
 
+function getEntryForDay(entries: JournalEntry[], day: number): JournalEntry | undefined {
+  const now = new Date();
+  return entries.find(e => {
+    const d = new Date(e.date);
+    return d.getDate() === day && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  });
+}
+
 function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: JournalViewProps): ReactElement {
   const [content, setContent] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry | null>(null);
 
   const stampColor = getStampColor(currentTreeTypeId);
-
-  function getEntryForDay(day: number): JournalEntry | undefined {
-    const now = new Date();
-    return entries.find(e => {
-      const d = new Date(e.date);
-      return d.getDate() === day && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-    });
-  }
 
   function handleSubmit(): void {
     if (!content.trim()) return;
@@ -67,7 +67,7 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
         <div className="bg-[var(--bg-surface)] border border-[var(--border)] p-6 rounded-3xl mb-8 grid grid-cols-7 gap-2 animate-in slide-in-from-top-4 relative">
           {Array.from({ length: daysInMonth }, (_, i) => {
             const day = i + 1;
-            const entry = getEntryForDay(day);
+            const entry = getEntryForDay(entries, day);
             const isToday = day === now.getDate();
 
             return (
@@ -129,7 +129,7 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
           onChange={(e) => setContent(e.target.value)}
           placeholder="Speak to your tree..."
           aria-label="Journal entry"
-          className="w-full h-40 bg-transparent border-none focus:ring-0 text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none font-medium"
+          className="w-full h-40 bg-transparent border-none focus:ring-0 outline-none text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none font-medium"
         />
         <div className="flex items-center justify-end mt-4">
           <button

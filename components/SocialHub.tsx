@@ -82,6 +82,7 @@ function SocialHub(): ReactElement {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search gardeners..."
+            aria-label="Search gardeners"
             className="w-full pl-11 pr-4 py-3.5 bg-[var(--bg-surface)] rounded-2xl border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-[var(--accent-border)] outline-none text-sm"
           />
         </div>
@@ -163,6 +164,7 @@ function SocialHub(): ReactElement {
               value={letterText}
               onChange={(e) => setLetterText(e.target.value)}
               placeholder="Write your letter..."
+              aria-label="Anonymous letter"
               className="flex-1 px-4 py-3 bg-[var(--bg-surface)] rounded-2xl border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm outline-none focus:ring-2 focus:ring-[var(--accent-border)]"
             />
             <button
@@ -201,7 +203,7 @@ function SocialHub(): ReactElement {
                     LVL {gardener.level}
                   </span>
                 </div>
-            );
+              );
             })}
           </div>
         </div>

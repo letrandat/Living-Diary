@@ -1,6 +1,6 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode, type ReactElement } from 'react';
-import { Theme } from '../types';
+import type { Theme } from '../types';
 
 interface ThemeContextValue {
   theme: Theme;
