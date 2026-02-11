@@ -3,7 +3,11 @@ import { GoogleGenAI } from "@google/genai";
 import { Message, ImageSize, JournalEntry } from "../types";
 
 export const getGeminiClient = () => {
-  return new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('VITE_GEMINI_API_KEY is not configured. Add it to your .env file.');
+  }
+  return new GoogleGenAI({ apiKey });
 };
 
 export const generateOrnament = async (prompt: string, size: ImageSize): Promise<string | null> => {

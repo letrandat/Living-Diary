@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 import { Season, UserProfile } from '../types';
 import { SEASON_COLORS } from '../constants';
-import { Droplets, Sprout, LayoutGrid, Zap } from 'lucide-react';
+import { Droplets, Sprout, LayoutGrid } from 'lucide-react';
 
 interface TreeSceneProps {
   season: Season;

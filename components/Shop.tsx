@@ -45,14 +45,17 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
         case 'auto-water':
           updated.treeHealth = Math.min(prev.treeHealth + 50, 100);
           break;
-        case 'chest':
-          updated.ornaments = [
-            ...prev.ornaments,
-            { id: `orn-${Date.now()}-1`, url: '', name: 'Mystery Ornament 1', date: new Date().toISOString() },
-            { id: `orn-${Date.now()}-2`, url: '', name: 'Mystery Ornament 2', date: new Date().toISOString() },
-            { id: `orn-${Date.now()}-3`, url: '', name: 'Mystery Ornament 3', date: new Date().toISOString() },
-          ];
+        case 'chest': {
+          const colors = ['%2334d399', '%23a78bfa', '%23fb923c'];
+          const newOrns = colors.map((c, i) => ({
+            id: `orn-${Date.now()}-${i}`,
+            url: `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='${c}'/><circle cx='16' cy='16' r='8' fill='white' opacity='0.3'/></svg>`,
+            name: `Mystery Ornament ${i + 1}`,
+            date: new Date().toISOString()
+          }));
+          updated.ornaments = [...prev.ornaments, ...newOrns];
           break;
+        }
       }
 
       setTimeout(() => setToast("Purchase successful! Arboria thanks you."), 0);
