@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { GET_SEASON, SEASON_COLORS } from '../constants';
+import { getSeason, SEASON_COLORS } from '../constants';
 import { Season } from '../types';
 
-describe('GET_SEASON', () => {
+describe('getSeason', () => {
   it('returns a valid Season enum value', () => {
-    const season = GET_SEASON();
+    const season = getSeason();
     expect(Object.values(Season)).toContain(season);
   });
 });

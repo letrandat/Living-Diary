@@ -1,12 +1,23 @@
 
-import { Season } from './types';
+import { Season, UserProfile } from './types';
 
-export const GET_SEASON = (): Season => {
+export function getSeason(): Season {
   const month = new Date().getMonth();
   if (month >= 2 && month <= 4) return Season.SPRING;
   if (month >= 5 && month <= 7) return Season.SUMMER;
   if (month >= 8 && month <= 10) return Season.AUTUMN;
   return Season.WINTER;
+}
+
+export const DEFAULT_USER: UserProfile = {
+  id: 'USER-777',
+  name: 'Gardener',
+  dewdrops: 500,
+  treeHealth: 85,
+  treeLevel: 1,
+  currentTreeTypeId: 'oak',
+  unlockedTreeTypes: ['oak', 'willow'],
+  ornaments: []
 };
 
 export const SEASON_COLORS = {

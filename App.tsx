@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactElement } from 'react';
 import { Season, UserProfile, JournalEntry, Ornament, ViewType } from './types';
-import { GET_SEASON, SEASON_COLORS } from './constants';
+import { getSeason, SEASON_COLORS, DEFAULT_USER } from './constants';
+import { useLocalStorage } from './hooks/useLocalStorage';
 import TreeScene from './components/TreeScene';
 import BottomNav from './components/BottomNav';
 import JournalView from './components/JournalView';
@@ -11,49 +12,15 @@ import ImageGen from './components/ImageGen';
 import Vault from './components/Vault';
 import TreeCollections from './components/TreeCollections';
 
-const DEFAULT_USER: UserProfile = {
-  id: 'USER-777',
-  name: 'Gardener',
-  dewdrops: 500,
-  treeHealth: 85,
-  treeLevel: 1,
-  currentTreeTypeId: 'oak',
-  unlockedTreeTypes: ['oak', 'willow'],
-  ornaments: []
-};
-
-const App: React.FC = () => {
+function App(): ReactElement {
   const [currentView, setCurrentView] = useState<ViewType>('home');
-  const [season] = useState<Season>(GET_SEASON());
+  const [season] = useState<Season>(getSeason);
 
-  // Lazy-initialize from localStorage with try/catch
-  const [user, setUser] = useState<UserProfile>(() => {
-    try {
-      const saved = localStorage.getItem('arboria_user');
-      if (saved) return JSON.parse(saved) as UserProfile;
-    } catch { /* corrupt data, use default */ }
-    return DEFAULT_USER;
-  });
-
-  const [entries, setEntries] = useState<JournalEntry[]>(() => {
-    try {
-      const saved = localStorage.getItem('arboria_entries');
-      if (saved) return JSON.parse(saved) as JournalEntry[];
-    } catch { /* corrupt data, use default */ }
-    return [];
-  });
+  const [user, setUser] = useLocalStorage<UserProfile>('arboria_user', DEFAULT_USER);
+  const [entries, setEntries] = useLocalStorage<JournalEntry[]>('arboria_entries', []);
 
   const [visualLevel, setVisualLevel] = useState<number>(user.treeLevel);
 
-  // Save to localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem('arboria_user', JSON.stringify(user));
-      localStorage.setItem('arboria_entries', JSON.stringify(entries));
-    } catch { /* quota exceeded */ }
-  }, [user, entries]);
-
-  // Logic tăng trưởng chậm
   useEffect(() => {
     const growthInterval = setInterval(() => {
       setVisualLevel(prev => {
@@ -64,27 +31,35 @@ const App: React.FC = () => {
     return () => clearInterval(growthInterval);
   }, [user.treeLevel]);
 
-  const handleWater = () => {
+  function handleWater(): void {
     setUser(prev => {
       if (prev.dewdrops < 10) return prev;
       return { ...prev, dewdrops: prev.dewdrops - 10, treeHealth: Math.min(100, prev.treeHealth + 15) };
     });
-  };
+  }
 
-  const handleFertilize = () => {
+  function handleFertilize(): void {
     setUser(prev => {
       if (prev.dewdrops < 50) return prev;
       return { ...prev, dewdrops: prev.dewdrops - 50, treeLevel: prev.treeLevel + 1 };
     });
-  };
+  }
+
+  function handleAddEntry(entry: JournalEntry): void {
+    setEntries(prev => [entry, ...prev]);
+    setUser(prev => ({ ...prev, dewdrops: prev.dewdrops + 20 }));
+    setCurrentView('home');
+  }
+
+  function handleOrnamentGenerated(ornament: Ornament): void {
+    setUser(prev => ({ ...prev, ornaments: [ornament, ...prev.ornaments] }));
+  }
 
   const theme = SEASON_COLORS[season];
 
   return (
-    // Sử dụng fixed inset-0 để đảm bảo app không bị scroll lung tung trên mobile
     <div className={`fixed inset-0 w-full transition-colors duration-1000 bg-gradient-to-b ${theme.sky} overflow-hidden`}>
       <div className="relative z-10 h-full flex flex-col">
-        {/* pb-28 để nội dung không bị che bởi BottomNav cao hơn (do safe area) */}
         <main className="flex-1 relative overflow-y-auto no-scrollbar pb-28 pt-[env(safe-area-inset-top)]">
           {currentView === 'home' && (
             <TreeScene
@@ -101,17 +76,11 @@ const App: React.FC = () => {
               entries={entries}
               currentTreeTypeId={user.currentTreeTypeId}
               userId={user.id}
-              onAddEntry={(entry) => {
-                setEntries(prev => [entry, ...prev]);
-                setUser(prev => ({ ...prev, dewdrops: prev.dewdrops + 20 }));
-                setCurrentView('home');
-              }} 
+              onAddEntry={handleAddEntry}
             />
           )}
           {currentView === 'chat' && <AIChat entries={entries} />}
-          {currentView === 'gen' && <ImageGen onGenerated={(ornament: Ornament) => {
-            setUser(prev => ({ ...prev, ornaments: [ornament, ...prev.ornaments] }));
-          }} />}
+          {currentView === 'gen' && <ImageGen onGenerated={handleOrnamentGenerated} />}
           {currentView === 'shop' && <Shop user={user} setUser={setUser} />}
           {currentView === 'vault' && <Vault user={user} />}
           {currentView === 'collections' && <TreeCollections user={user} setUser={setUser} onBack={() => setCurrentView('home')} />}
@@ -121,6 +90,6 @@ const App: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default App;

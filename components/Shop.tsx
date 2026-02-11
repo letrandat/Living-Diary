@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactElement } from 'react';
 import { ShoppingCart, Zap, Droplets, Wind, Package } from 'lucide-react';
 import { UserProfile } from '../types';
 
@@ -8,23 +8,23 @@ interface ShopProps {
   setUser: React.Dispatch<React.SetStateAction<UserProfile>>;
 }
 
-const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
+const SHOP_ITEMS = [
+  { id: 'auto-water', name: 'Auto-Water Sprite', desc: 'Waters your tree for 24 hours automatically.', cost: 200, icon: Droplets, color: 'text-blue-500' },
+  { id: 'super-fert', name: 'Golden Fertilizer', desc: 'Instantly increases tree level by 1.', cost: 500, icon: Zap, color: 'text-amber-500' },
+  { id: 'sakura-seed', name: 'Sakura Essence', desc: 'Unlocks the Pink Cherry Blossom theme.', cost: 1000, icon: Wind, color: 'text-pink-500' },
+  { id: 'chest', name: 'Ornament Chest', desc: 'Get 3 random AI-forged ornaments.', cost: 350, icon: Package, color: 'text-emerald-500' },
+] as const;
+
+function Shop({ user, setUser }: ShopProps): ReactElement {
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
-    if (toast) {
-      const t = setTimeout(() => setToast(null), 2500);
-      return () => clearTimeout(t);
-    }
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 2500);
+    return () => clearTimeout(t);
   }, [toast]);
-  const shopItems = [
-    { id: 'auto-water', name: 'Auto-Water Sprite', desc: 'Waters your tree for 24 hours automatically.', cost: 200, icon: Droplets, color: 'text-blue-500' },
-    { id: 'super-fert', name: 'Golden Fertilizer', desc: 'Instantly increases tree level by 1.', cost: 500, icon: Zap, color: 'text-amber-500' },
-    { id: 'sakura-seed', name: 'Sakura Essence', desc: 'Unlocks the Pink Cherry Blossom theme.', cost: 1000, icon: Wind, color: 'text-pink-500' },
-    { id: 'chest', name: 'Ornament Chest', desc: 'Get 3 random AI-forged ornaments.', cost: 350, icon: Package, color: 'text-emerald-500' },
-  ];
 
-  const handleBuy = (id: string, cost: number) => {
+  function handleBuy(id: string, cost: number): void {
     setUser(prev => {
       if (prev.dewdrops < cost) {
         setTimeout(() => setToast("Not enough dewdrops! Try journaling more to earn more."), 0);
@@ -61,7 +61,7 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
       setTimeout(() => setToast("Purchase successful! Arboria thanks you."), 0);
       return updated;
     });
-  };
+  }
 
   return (
     <div className="w-full h-full p-8 overflow-y-auto">
@@ -71,7 +71,7 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {shopItems.map(item => (
+        {SHOP_ITEMS.map(item => (
           <div key={item.id} className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex items-start gap-6 hover:shadow-xl transition-all group">
             <div className={`w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
               <item.icon size={32} />
@@ -79,7 +79,7 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
             <div className="flex-1">
               <h3 className="text-lg font-bold text-slate-800">{item.name}</h3>
               <p className="text-sm text-slate-500 mt-1">{item.desc}</p>
-              <button 
+              <button
                 onClick={() => handleBuy(item.id, item.cost)}
                 className="mt-4 bg-slate-900 text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-emerald-600 transition-colors flex items-center gap-2"
               >
@@ -106,6 +106,6 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
       )}
     </div>
   );
-};
+}
 
 export default Shop;

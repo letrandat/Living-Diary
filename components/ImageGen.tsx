@@ -1,39 +1,35 @@
 
-import React, { useState } from 'react';
+import { useState, type ReactElement } from 'react';
 import { Sparkles, Loader2, Info } from 'lucide-react';
 import { generateOrnament } from '../services/gemini';
-import { ImageSize, Ornament } from '../types';
+import { Ornament } from '../types';
 
 interface ImageGenProps {
   onGenerated: (ornament: Ornament) => void;
 }
 
-const ImageGen: React.FC<ImageGenProps> = ({ onGenerated }) => {
+function ImageGen({ onGenerated }: ImageGenProps): ReactElement {
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [lastImage, setLastImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleForge = async () => {
+  async function handleForge(): Promise<void> {
     if (!prompt.trim() || loading) return;
     setLoading(true);
     setError(null);
+
     const url = await generateOrnament(prompt, '1K');
     if (url) {
-      const newOrnament: Ornament = {
-        id: `ORN-${Date.now()}`,
-        url,
-        name: prompt,
-        date: new Date().toISOString()
-      };
       setLastImage(url);
-      onGenerated(newOrnament);
+      onGenerated({ id: `ORN-${Date.now()}`, url, name: prompt, date: new Date().toISOString() });
     } else {
       setError('Failed to forge ornament. Try a different description.');
     }
+
     setLoading(false);
     setPrompt('');
-  };
+  }
 
   return (
     <div className="w-full h-full p-6 flex flex-col bg-slate-50">
@@ -74,7 +70,7 @@ const ImageGen: React.FC<ImageGenProps> = ({ onGenerated }) => {
           placeholder="Describe your ornament (e.g. A blue crystal heart)"
           className="w-full p-5 bg-white rounded-2xl shadow-xl border-none focus:ring-2 focus:ring-emerald-400"
         />
-        <button 
+        <button
           onClick={handleForge}
           disabled={loading}
           className="w-full py-5 bg-emerald-600 text-white rounded-2xl font-black shadow-xl flex items-center justify-center gap-3 disabled:opacity-50"
@@ -85,6 +81,6 @@ const ImageGen: React.FC<ImageGenProps> = ({ onGenerated }) => {
       </div>
     </div>
   );
-};
+}
 
 export default ImageGen;

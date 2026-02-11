@@ -1,5 +1,5 @@
 
-import React from 'react';
+import type { ReactElement } from 'react';
 import { UserProfile } from '../types';
 import { Package, Calendar } from 'lucide-react';
 
@@ -7,7 +7,7 @@ interface VaultProps {
   user: UserProfile;
 }
 
-const Vault: React.FC<VaultProps> = ({ user }) => {
+function Vault({ user }: VaultProps): ReactElement {
   return (
     <div className="w-full h-full p-6 bg-slate-50 overflow-y-auto">
       <div className="flex items-center gap-4 mb-8">
@@ -38,6 +38,6 @@ const Vault: React.FC<VaultProps> = ({ user }) => {
       )}
     </div>
   );
-};
+}
 
 export default Vault;

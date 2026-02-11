@@ -1,6 +1,7 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type ReactElement } from 'react';
 import { Message, JournalEntry } from '../types';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { chatWithSpirit } from '../services/gemini';
 import { Send, Sparkles } from 'lucide-react';
 
@@ -8,33 +9,19 @@ interface AIChatProps {
   entries: JournalEntry[];
 }
 
-const AIChat: React.FC<AIChatProps> = ({ entries }) => {
-  const [messages, setMessages] = useState<Message[]>(() => {
-    try {
-      const saved = localStorage.getItem('arboria_chat');
-      if (saved) {
-        const parsed = JSON.parse(saved) as Message[];
-        return parsed.slice(-50);
-      }
-    } catch {
-      // corrupted data; reset
-    }
-    return [{ role: 'model', text: 'Peace be with you. I remember your recent reflections. How are you carrying them today?' }];
-  });
+const DEFAULT_MESSAGE: Message = { role: 'model', text: 'Peace be with you. I remember your recent reflections. How are you carrying them today?' };
+
+function AIChat({ entries }: AIChatProps): ReactElement {
+  const [messages, setMessages] = useLocalStorage<Message[]>('arboria_chat', [DEFAULT_MESSAGE]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    try {
-      localStorage.setItem('arboria_chat', JSON.stringify(messages));
-    } catch {
-      // quota exceeded; ignore
-    }
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages]);
 
-  const handleSend = async () => {
+  async function handleSend(): Promise<void> {
     const text = input.trim();
     if (!text || isTyping) return;
 
@@ -46,12 +33,12 @@ const AIChat: React.FC<AIChatProps> = ({ entries }) => {
     try {
       const response = await chatWithSpirit(messages, text, entries);
       setMessages(prev => [...prev, { role: 'model' as const, text: response }].slice(-50));
-    } catch (error) {
+    } catch {
       setMessages(prev => [...prev, { role: 'model', text: 'The spirit is fading... try again later.' }]);
     } finally {
       setIsTyping(false);
     }
-  };
+  }
 
   return (
     <div className="w-full h-full flex flex-col p-6 bg-emerald-50/30">
@@ -71,7 +58,7 @@ const AIChat: React.FC<AIChatProps> = ({ entries }) => {
       </div>
 
       <div className="mt-4 flex gap-2">
-        <input 
+        <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
@@ -82,6 +69,6 @@ const AIChat: React.FC<AIChatProps> = ({ entries }) => {
       </div>
     </div>
   );
-};
+}
 
 export default AIChat;
