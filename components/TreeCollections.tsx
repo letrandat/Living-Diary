@@ -10,9 +10,9 @@ interface TreeCollectionsProps {
 }
 
 const TREE_TYPES: TreeType[] = [
-  { id: 'oak', name: 'Oak of Strength', description: 'Grows taller and sturdier with every entry.', color: 'bg-emerald-500/20' },
-  { id: 'willow', name: 'Willow of Peace', description: 'Flowing branches that sway with your mood.', color: 'bg-cyan-500/20' },
-  { id: 'sakura', name: 'Cherry Blossom', description: 'Premium tree. Blooms with beautiful petals.', color: 'bg-pink-500/20' },
+  { id: 'oak', name: 'Oak of Strength', description: 'Grows taller and sturdier with every entry.', color: 'bg-[var(--color-oak-bg)]' },
+  { id: 'willow', name: 'Willow of Peace', description: 'Flowing branches that sway with your mood.', color: 'bg-[var(--color-willow-bg)]' },
+  { id: 'sakura', name: 'Cherry Blossom', description: 'Premium tree. Blooms with beautiful petals.', color: 'bg-[var(--color-sakura-bg)]' },
 ];
 
 function getCardStyle(isSelected: boolean, isUnlocked: boolean): string {
@@ -49,10 +49,12 @@ function TreeCollections({ user, setUser, onBack }: TreeCollectionsProps): React
           const isSelected = user.currentTreeTypeId === tree.id;
 
           return (
-            <div
+            <button
               key={tree.id}
               onClick={() => handleSelect(tree.id)}
-              className={`p-6 rounded-[2.5rem] border-2 transition-all cursor-pointer ${getCardStyle(isSelected, isUnlocked)}`}
+              aria-label={`${tree.name}: ${tree.description}${isSelected ? ' (selected)' : isUnlocked ? '' : ' (locked)'}`}
+              disabled={!isUnlocked}
+              className={`w-full text-left p-6 rounded-[2.5rem] border-2 transition-all cursor-pointer ${getCardStyle(isSelected, isUnlocked)}`}
             >
               <div className="flex justify-between items-start mb-4">
                 <div className={`w-12 h-12 rounded-2xl ${tree.color} shadow-lg`} />
@@ -60,7 +62,7 @@ function TreeCollections({ user, setUser, onBack }: TreeCollectionsProps): React
               </div>
               <h3 className="font-black text-[var(--text-primary)]">{tree.name}</h3>
               <p className="text-xs text-[var(--text-secondary)] mt-1">{tree.description}</p>
-            </div>
+            </button>
           );
         })}
       </div>

@@ -87,6 +87,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
 
         <button
           onClick={onFertilize}
+          aria-label={`Fertilize tree for 50 dewdrops, current level ${Math.floor(level)}`}
           className="group flex items-center gap-3 bg-[var(--bg-surface)] backdrop-blur-2xl px-4 py-3 rounded-2xl shadow-xl border border-[var(--border)] animate-in slide-in-from-right-4 transition-all active:scale-95"
         >
           <div className="p-2.5 bg-[var(--accent-bg)] rounded-xl text-[var(--accent)] group-hover:scale-110 transition-transform">
@@ -106,6 +107,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
 
         <button
           onClick={onWater}
+          aria-label={`Water tree for 10 dewdrops, health ${health}%`}
           className="group flex items-center gap-3 bg-[var(--bg-surface)] backdrop-blur-2xl px-4 py-3 rounded-2xl shadow-xl border border-[var(--border)] animate-in slide-in-from-right-4 duration-500 transition-all active:scale-95"
         >
           <div className="p-2.5 bg-[var(--secondary-bg)] rounded-xl text-[var(--secondary)] group-hover:scale-110 transition-transform">
@@ -131,7 +133,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
       </div>
 
       <div className="absolute top-4 left-4 mt-[env(safe-area-inset-top,0px)] flex flex-col gap-2">
-        <button onClick={onOpenCollections} className="p-3 bg-[var(--bg-surface)] backdrop-blur-2xl rounded-2xl border border-[var(--border)] text-[var(--accent)] active:scale-90 transition-transform" style={{ boxShadow: 'var(--shadow-sm)' }}>
+        <button onClick={onOpenCollections} aria-label="Open tree collections" className="p-3 bg-[var(--bg-surface)] backdrop-blur-2xl rounded-2xl border border-[var(--border)] text-[var(--accent)] active:scale-90 transition-transform" style={{ boxShadow: 'var(--shadow-sm)' }}>
           <LayoutGrid size={20} />
         </button>
         <button onClick={toggleTheme} aria-label="Toggle theme" className="p-3 bg-[var(--bg-surface)] backdrop-blur-2xl rounded-2xl border border-[var(--border)] text-[var(--text-muted)] active:scale-90 transition-transform" style={{ boxShadow: 'var(--shadow-sm)' }}>

@@ -9,10 +9,10 @@ interface ShopProps {
 }
 
 const SHOP_ITEMS = [
-  { id: 'auto-water', name: 'Auto-Water Sprite', desc: 'Waters your tree for 24 hours automatically.', cost: 200, icon: Droplets, color: 'text-cyan-400' },
-  { id: 'super-fert', name: 'Golden Fertilizer', desc: 'Instantly increases tree level by 1.', cost: 500, icon: Zap, color: 'text-amber-400' },
-  { id: 'sakura-seed', name: 'Sakura Essence', desc: 'Unlocks the Pink Cherry Blossom theme.', cost: 1000, icon: Wind, color: 'text-pink-400' },
-  { id: 'chest', name: 'Ornament Chest', desc: 'Get 3 random AI-forged ornaments.', cost: 350, icon: Package, color: 'text-emerald-400' },
+  { id: 'auto-water', name: 'Auto-Water Sprite', desc: 'Waters your tree for 24 hours automatically.', cost: 200, icon: Droplets, color: 'text-[var(--color-willow)]' },
+  { id: 'super-fert', name: 'Golden Fertilizer', desc: 'Instantly increases tree level by 1.', cost: 500, icon: Zap, color: 'text-[var(--color-gold)]' },
+  { id: 'sakura-seed', name: 'Sakura Essence', desc: 'Unlocks the Pink Cherry Blossom theme.', cost: 1000, icon: Wind, color: 'text-[var(--color-sakura)]' },
+  { id: 'chest', name: 'Ornament Chest', desc: 'Get 3 random AI-forged ornaments.', cost: 350, icon: Package, color: 'text-[var(--color-oak)]' },
 ] as const;
 
 function Shop({ user, setUser }: ShopProps): ReactElement {
@@ -81,6 +81,7 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
               <p className="text-sm text-[var(--text-secondary)] mt-1">{item.desc}</p>
               <button
                 onClick={() => handleBuy(item.id, item.cost)}
+                aria-label={`Buy ${item.name} for ${item.cost} dewdrops`}
                 className="mt-4 bg-[var(--accent-bg)] text-[var(--accent-light)] px-6 py-2 rounded-full font-bold text-sm border border-[var(--accent-border)] transition-colors flex items-center gap-2"
               >
                 <span>💧 {item.cost}</span>

@@ -12,10 +12,10 @@ interface JournalViewProps {
 
 function getStampColor(treeTypeId: string): string {
   switch (treeTypeId) {
-    case 'oak': return 'text-emerald-500';
-    case 'willow': return 'text-cyan-500';
-    case 'sakura': return 'text-pink-500';
-    default: return 'text-purple-500';
+    case 'oak': return 'text-[var(--color-oak)]';
+    case 'willow': return 'text-[var(--color-willow)]';
+    case 'sakura': return 'text-[var(--color-sakura)]';
+    default: return 'text-[var(--accent)]';
   }
 }
 
