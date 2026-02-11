@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Zap, Droplets, Wind, Package } from 'lucide-react';
 import { UserProfile } from '../types';
 
@@ -9,6 +9,14 @@ interface ShopProps {
 }
 
 const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (toast) {
+      const t = setTimeout(() => setToast(null), 2500);
+      return () => clearTimeout(t);
+    }
+  }, [toast]);
   const shopItems = [
     { id: 'auto-water', name: 'Auto-Water Sprite', desc: 'Waters your tree for 24 hours automatically.', cost: 200, icon: Droplets, color: 'text-blue-500' },
     { id: 'super-fert', name: 'Golden Fertilizer', desc: 'Instantly increases tree level by 1.', cost: 500, icon: Zap, color: 'text-amber-500' },
@@ -19,7 +27,7 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
   const handleBuy = (id: string, cost: number) => {
     setUser(prev => {
       if (prev.dewdrops < cost) {
-        setTimeout(() => alert("Not enough dewdrops! Try journaling more to earn more."), 0);
+        setTimeout(() => setToast("Not enough dewdrops! Try journaling more to earn more."), 0);
         return prev;
       }
 
@@ -47,7 +55,7 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
           break;
       }
 
-      setTimeout(() => alert("Purchase successful! Arboria thanks you."), 0);
+      setTimeout(() => setToast("Purchase successful! Arboria thanks you."), 0);
       return updated;
     });
   };
@@ -86,6 +94,13 @@ const Shop: React.FC<ShopProps> = ({ user, setUser }) => {
           Purchase Bundles
         </button>
       </div>
+
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm animate-in slide-in-from-bottom-4 flex items-center gap-3">
+          <span>{toast}</span>
+          <button onClick={() => setToast(null)} className="text-white/60 hover:text-white ml-2">&times;</button>
+        </div>
+      )}
     </div>
   );
 };

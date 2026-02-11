@@ -212,9 +212,9 @@ const TreeScene: React.FC<TreeSceneProps> = ({ season, user, level, onWater, onF
             <div 
               key={orn.id} 
               className="absolute w-8 h-8 pointer-events-auto leaf-sway"
-              style={{ 
-                top: (trunkTopY + 20 + (i * 15)) + 'px', 
-                left: (100 + (Math.sin(i * 1.5) * 50)) + 'px',
+              style={{
+                top: `${((trunkTopY + 20 + (i * 15)) / 400) * 100}%`,
+                left: `${((100 + (Math.sin(i * 1.5) * 50)) / 200) * 100}%`,
                 animationDelay: `${i * 0.2}s`
               }}
             >

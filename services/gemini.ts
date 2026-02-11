@@ -1,5 +1,5 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { Message, ImageSize, JournalEntry } from "../types";
 
 export const getGeminiClient = () => {

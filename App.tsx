@@ -5,7 +5,6 @@ import { GET_SEASON, SEASON_COLORS } from './constants';
 import TreeScene from './components/TreeScene';
 import BottomNav from './components/BottomNav';
 import JournalView from './components/JournalView';
-import SocialHub from './components/SocialHub';
 import Shop from './components/Shop';
 import AIChat from './components/AIChat';
 import ImageGen from './components/ImageGen';
@@ -48,8 +47,10 @@ const App: React.FC = () => {
 
   // Save to localStorage
   useEffect(() => {
-    localStorage.setItem('arboria_user', JSON.stringify(user));
-    localStorage.setItem('arboria_entries', JSON.stringify(entries));
+    try {
+      localStorage.setItem('arboria_user', JSON.stringify(user));
+      localStorage.setItem('arboria_entries', JSON.stringify(entries));
+    } catch { /* quota exceeded */ }
   }, [user, entries]);
 
   // Logic tăng trưởng chậm
@@ -101,7 +102,7 @@ const App: React.FC = () => {
               currentTreeTypeId={user.currentTreeTypeId}
               userId={user.id}
               onAddEntry={(entry) => {
-                setEntries([entry, ...entries]);
+                setEntries(prev => [entry, ...prev]);
                 setUser(prev => ({ ...prev, dewdrops: prev.dewdrops + 20 }));
                 setCurrentView('home');
               }} 
@@ -111,7 +112,6 @@ const App: React.FC = () => {
           {currentView === 'gen' && <ImageGen onGenerated={(ornament: Ornament) => {
             setUser(prev => ({ ...prev, ornaments: [ornament, ...prev.ornaments] }));
           }} />}
-          {currentView === 'social' && <SocialHub />}
           {currentView === 'shop' && <Shop user={user} setUser={setUser} />}
           {currentView === 'vault' && <Vault user={user} />}
           {currentView === 'collections' && <TreeCollections user={user} setUser={setUser} onBack={() => setCurrentView('home')} />}

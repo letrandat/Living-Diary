@@ -12,10 +12,12 @@ const ImageGen: React.FC<ImageGenProps> = ({ onGenerated }) => {
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [lastImage, setLastImage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleForge = async () => {
     if (!prompt.trim() || loading) return;
     setLoading(true);
+    setError(null);
     const url = await generateOrnament(prompt, '1K');
     if (url) {
       const newOrnament: Ornament = {
@@ -26,6 +28,8 @@ const ImageGen: React.FC<ImageGenProps> = ({ onGenerated }) => {
       };
       setLastImage(url);
       onGenerated(newOrnament);
+    } else {
+      setError('Failed to forge ornament. Try a different description.');
     }
     setLoading(false);
     setPrompt('');
@@ -48,7 +52,7 @@ const ImageGen: React.FC<ImageGenProps> = ({ onGenerated }) => {
       <div className="flex-1 flex flex-col items-center justify-center">
         {lastImage ? (
           <div className="relative group">
-            <img src={lastImage} className="w-64 h-64 rounded-3xl shadow-2xl animate-in zoom-in-50" />
+            <img src={lastImage} alt="Generated ornament" className="w-64 h-64 rounded-3xl shadow-2xl animate-in zoom-in-50" />
             <div className="absolute inset-0 bg-emerald-600/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
         ) : (
@@ -59,7 +63,12 @@ const ImageGen: React.FC<ImageGenProps> = ({ onGenerated }) => {
       </div>
 
       <div className="mt-8 space-y-4">
-        <input 
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-2xl text-sm font-medium">
+            {error}
+          </div>
+        )}
+        <input
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Describe your ornament (e.g. A blue crystal heart)"

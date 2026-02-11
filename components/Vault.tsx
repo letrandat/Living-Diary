@@ -26,7 +26,7 @@ const Vault: React.FC<VaultProps> = ({ user }) => {
         <div className="grid grid-cols-2 gap-4">
           {user.ornaments.map((orn) => (
             <div key={orn.id} className="bg-white p-3 rounded-3xl shadow-sm border border-slate-100 group">
-              <img src={orn.url} className="w-full h-32 object-contain rounded-2xl mb-3 bg-slate-50" />
+              <img src={orn.url} alt={orn.name} className="w-full h-32 object-contain rounded-2xl mb-3 bg-slate-50" />
               <p className="text-[10px] font-black text-slate-800 truncate">{orn.name}</p>
               <div className="flex items-center gap-1 mt-1 text-slate-400">
                 <Calendar size={10} />
