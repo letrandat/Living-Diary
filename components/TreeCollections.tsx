@@ -16,14 +16,14 @@ const TREE_TYPES: TreeType[] = [
 ];
 
 function getCardStyle(isSelected: boolean, isUnlocked: boolean): string {
-  if (isSelected) return 'border-purple-500/50 bg-purple-500/10';
-  if (isUnlocked) return 'border-white/[0.06] bg-white/[0.03]';
-  return 'border-white/[0.04] bg-white/[0.02] opacity-40';
+  if (isSelected) return 'border-[var(--accent-border)] bg-[var(--accent-bg)]';
+  if (isUnlocked) return 'border-[var(--border)] bg-[var(--bg-surface)]';
+  return 'border-[var(--border)] bg-[var(--bg-surface)] opacity-40';
 }
 
 function StatusIcon({ isSelected, isUnlocked }: { isSelected: boolean; isUnlocked: boolean }): ReactElement | null {
-  if (isSelected) return <div className="bg-purple-500 text-white p-1 rounded-full"><Check size={16} /></div>;
-  if (!isUnlocked) return <Lock size={16} className="text-slate-600" />;
+  if (isSelected) return <div className="bg-[var(--accent)] text-[var(--text-primary)] p-1 rounded-full"><Check size={16} /></div>;
+  if (!isUnlocked) return <Lock size={16} className="text-[var(--text-muted)]" />;
   return null;
 }
 
@@ -36,12 +36,12 @@ function TreeCollections({ user, setUser, onBack }: TreeCollectionsProps): React
 
   return (
     <div className="w-full h-full p-6 overflow-y-auto">
-      <button onClick={onBack} className="flex items-center gap-2 text-slate-500 font-bold mb-8">
+      <button onClick={onBack} className="flex items-center gap-2 text-[var(--text-muted)] font-bold mb-8">
         <ArrowLeft size={18} /> BACK
       </button>
 
-      <h2 className="text-3xl font-black text-white mb-2">Collections</h2>
-      <p className="text-sm text-slate-400 mb-8">Choose the spirit that reflects your journey.</p>
+      <h2 className="text-3xl font-black text-[var(--text-primary)] mb-2">Collections</h2>
+      <p className="text-sm text-[var(--text-secondary)] mb-8">Choose the spirit that reflects your journey.</p>
 
       <div className="space-y-4">
         {TREE_TYPES.map(tree => {
@@ -58,8 +58,8 @@ function TreeCollections({ user, setUser, onBack }: TreeCollectionsProps): React
                 <div className={`w-12 h-12 rounded-2xl ${tree.color} shadow-lg`} />
                 <StatusIcon isSelected={isSelected} isUnlocked={isUnlocked} />
               </div>
-              <h3 className="font-black text-white">{tree.name}</h3>
-              <p className="text-xs text-slate-400 mt-1">{tree.description}</p>
+              <h3 className="font-black text-[var(--text-primary)]">{tree.name}</h3>
+              <p className="text-xs text-[var(--text-secondary)] mt-1">{tree.description}</p>
             </div>
           );
         })}

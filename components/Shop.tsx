@@ -66,22 +66,22 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
   return (
     <div className="w-full h-full p-6 overflow-y-auto">
       <div className="flex items-center gap-4 mb-10">
-        <ShoppingCart size={32} className="text-purple-400" />
-        <h2 className="text-3xl font-bold text-white">Green Market</h2>
+        <ShoppingCart size={32} className="text-[var(--accent)]" />
+        <h2 className="text-3xl font-bold text-[var(--text-primary)]">Green Market</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {SHOP_ITEMS.map(item => (
-          <div key={item.id} className="bg-white/[0.03] rounded-3xl p-6 border border-white/[0.06] flex items-start gap-6 hover:bg-white/[0.06] transition-all group">
-            <div className={`w-16 h-16 rounded-2xl bg-white/[0.04] flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
+          <div key={item.id} className="bg-[var(--bg-surface)] rounded-3xl p-6 border border-[var(--border)] flex items-start gap-6 hover:bg-[var(--bg-surface-hover)] transition-all group">
+            <div className={`w-16 h-16 rounded-2xl bg-[var(--bg-surface)] flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
               <item.icon size={32} />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-white">{item.name}</h3>
-              <p className="text-sm text-slate-400 mt-1">{item.desc}</p>
+              <h3 className="text-lg font-bold text-[var(--text-primary)]">{item.name}</h3>
+              <p className="text-sm text-[var(--text-secondary)] mt-1">{item.desc}</p>
               <button
                 onClick={() => handleBuy(item.id, item.cost)}
-                className="mt-4 bg-purple-500/20 text-purple-300 px-6 py-2 rounded-full font-bold text-sm hover:bg-purple-500/30 border border-purple-500/20 transition-colors flex items-center gap-2"
+                className="mt-4 bg-[var(--accent-bg)] text-[var(--accent-light)] px-6 py-2 rounded-full font-bold text-sm hover:bg-[var(--accent-bg)] border border-[var(--accent-border)] transition-colors flex items-center gap-2"
               >
                 <span>💧 {item.cost}</span>
               </button>
@@ -90,18 +90,18 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
         ))}
       </div>
 
-      <div className="mt-12 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-white/[0.06] rounded-[3rem] p-10 text-white flex flex-col items-center text-center shadow-2xl">
+      <div className="mt-12 border border-[var(--border)] rounded-[3rem] p-10 text-[var(--text-primary)] flex flex-col items-center text-center shadow-2xl" style={{ background: 'linear-gradient(to right, var(--accent-bg), var(--secondary-bg))' }}>
         <h3 className="text-2xl font-bold mb-4">Out of Dewdrops?</h3>
         <p className="opacity-90 max-w-md mb-8">Support the growth of Arboria by purchasing dewdrop bundles or subscribing for premium seasonal themes.</p>
-        <button className="bg-white/[0.08] text-white border border-white/[0.1] px-10 py-4 rounded-full font-black text-lg hover:bg-white/[0.12] hover:scale-105 transition-all shadow-xl">
+        <button className="bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-strong)] px-10 py-4 rounded-full font-black text-lg hover:bg-[var(--bg-surface-hover)] hover:scale-105 transition-all shadow-xl">
           Purchase Bundles
         </button>
       </div>
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-white/[0.08] backdrop-blur-2xl text-white border border-white/[0.1] px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm animate-in slide-in-from-bottom-4 flex items-center gap-3">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[var(--bg-elevated)] backdrop-blur-2xl text-[var(--text-primary)] border border-[var(--border-strong)] px-6 py-3 rounded-2xl shadow-2xl font-bold text-sm animate-in slide-in-from-bottom-4 flex items-center gap-3">
           <span>{toast}</span>
-          <button onClick={() => setToast(null)} className="text-white/60 hover:text-white ml-2">&times;</button>
+          <button onClick={() => setToast(null)} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] ml-2">&times;</button>
         </div>
       )}
     </div>

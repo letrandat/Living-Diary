@@ -10,12 +10,14 @@ describe('getSeason', () => {
 });
 
 describe('SEASON_COLORS', () => {
-  it('has colors for all seasons', () => {
+  it('has dark and light colors for all seasons', () => {
     for (const season of Object.values(Season)) {
       expect(SEASON_COLORS[season]).toBeDefined();
-      expect(SEASON_COLORS[season].leaves).toBeDefined();
-      expect(SEASON_COLORS[season].sky).toBeDefined();
-      expect(SEASON_COLORS[season].accent).toBeDefined();
+      for (const mode of ['dark', 'light'] as const) {
+        expect(SEASON_COLORS[season][mode].leaves).toBeDefined();
+        expect(SEASON_COLORS[season][mode].sky).toBeDefined();
+        expect(SEASON_COLORS[season][mode].accent).toBeDefined();
+      }
     }
   });
 });

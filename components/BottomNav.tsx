@@ -1,7 +1,8 @@
 
 import type { ReactElement } from 'react';
-import { Trees, PenTool, MessageCircle, Sparkles, Briefcase, ShoppingBag } from 'lucide-react';
+import { Trees, PenTool, MessageCircle, Sparkles, Briefcase, ShoppingBag, Sun, Moon } from 'lucide-react';
 import { ViewType } from '../types';
+import { useTheme } from '../hooks/useTheme';
 
 interface BottomNavProps {
   activeView: ViewType;
@@ -18,10 +19,11 @@ const NAV_ITEMS: { id: ViewType; icon: typeof Trees; label: string }[] = [
 ];
 
 function BottomNav({ activeView, onViewChange }: BottomNavProps): ReactElement {
+  const { theme, toggleTheme } = useTheme();
   return (
     <nav
-      className="fixed bottom-4 left-4 right-4 mx-auto max-w-[420px] bg-white/[0.03] backdrop-blur-2xl border border-white/[0.08] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] z-50 px-4 py-3"
-      style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 12px)' }}
+      className="fixed bottom-4 left-4 right-4 mx-auto max-w-[420px] bg-[var(--nav-bg)] backdrop-blur-2xl border border-[var(--border)] rounded-2xl z-50 px-4 py-3"
+      style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 12px)', boxShadow: 'var(--shadow-lg)' }}
     >
       <div className="flex justify-around items-center">
         {NAV_ITEMS.map((item) => {
@@ -33,17 +35,25 @@ function BottomNav({ activeView, onViewChange }: BottomNavProps): ReactElement {
               aria-label={item.label}
               className={`flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 ${
                 isActive
-                  ? 'text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.4)]'
-                  : 'text-slate-500'
+                  ? 'text-[var(--accent)]'
+                  : 'text-[var(--text-muted)]'
               }`}
+              style={isActive ? { filter: 'drop-shadow(0 0 8px var(--accent-glow))' } : undefined}
             >
               <item.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
               {isActive && (
-                <span className="block w-1 h-1 rounded-full bg-purple-400" />
+                <span className="block w-1 h-1 rounded-full bg-[var(--accent)]" />
               )}
             </button>
           );
         })}
+        <button
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          className="flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 text-[var(--text-muted)]"
+        >
+          {theme === 'dark' ? <Sun size={22} strokeWidth={2} /> : <Moon size={22} strokeWidth={2} />}
+        </button>
       </div>
     </nav>
   );

@@ -3,6 +3,7 @@ import { useState, useEffect, type ReactElement } from 'react';
 import { Season, UserProfile, JournalEntry, Ornament, ViewType } from './types';
 import { getSeason, SEASON_COLORS, DEFAULT_USER } from './constants';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { useTheme } from './hooks/useTheme';
 import TreeScene from './components/TreeScene';
 import BottomNav from './components/BottomNav';
 import JournalView from './components/JournalView';
@@ -55,15 +56,17 @@ function App(): ReactElement {
     setUser(prev => ({ ...prev, ornaments: [ornament, ...prev.ornaments] }));
   }
 
-  const theme = SEASON_COLORS[season];
+  const { theme: currentTheme } = useTheme();
+  const seasonTheme = SEASON_COLORS[season][currentTheme];
 
   return (
-    <div className={`fixed inset-0 w-full transition-colors duration-1000 bg-gradient-to-b ${theme.sky} overflow-hidden`}>
+    <div className={`fixed inset-0 w-full transition-colors duration-500 bg-gradient-to-b ${seasonTheme.sky} overflow-hidden`}>
       <div className="relative z-10 h-full flex flex-col">
         <main className="flex-1 relative overflow-y-auto no-scrollbar pb-24 pt-[env(safe-area-inset-top)]">
           {currentView === 'home' && (
             <TreeScene
               season={season}
+              seasonTheme={seasonTheme}
               user={user}
               level={visualLevel}
               onWater={handleWater}

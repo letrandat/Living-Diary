@@ -8,22 +8,122 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root {
+        /* ═══ Theme Token System ═══ */
+        :root, [data-theme="dark"] {
             --sat: env(safe-area-inset-top);
             --sab: env(safe-area-inset-bottom);
             --sal: env(safe-area-inset-left);
             --sar: env(safe-area-inset-right);
-            --bg-primary: #0a0a0f;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --bg-card-hover: rgba(255, 255, 255, 0.06);
-            --border-subtle: rgba(255, 255, 255, 0.06);
+
+            /* Backgrounds */
+            --bg-base: #0a0a0f;
+            --bg-surface: rgba(255, 255, 255, 0.03);
+            --bg-surface-hover: rgba(255, 255, 255, 0.06);
+            --bg-elevated: rgba(255, 255, 255, 0.08);
+            --bg-overlay: rgba(0, 0, 0, 0.6);
+            --bg-input: rgba(255, 255, 255, 0.04);
+
+            /* Borders */
+            --border: rgba(255, 255, 255, 0.06);
+            --border-strong: rgba(255, 255, 255, 0.1);
+
+            /* Text */
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --text-muted: #475569;
-            --accent-primary: #a855f7;
-            --accent-secondary: #06b6d4;
-            --glow-primary: rgba(168, 85, 247, 0.15);
-            --glow-secondary: rgba(6, 182, 212, 0.15);
+            --text-inverse: #0a0a0f;
+
+            /* Accents */
+            --accent: #a855f7;
+            --accent-light: #c084fc;
+            --accent-bg: rgba(168, 85, 247, 0.2);
+            --accent-border: rgba(168, 85, 247, 0.3);
+            --accent-glow: rgba(168, 85, 247, 0.15);
+            --secondary: #06b6d4;
+            --secondary-bg: rgba(6, 182, 212, 0.2);
+            --secondary-glow: rgba(6, 182, 212, 0.15);
+
+            /* Semantic */
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --danger-bg: rgba(248, 113, 113, 0.1);
+
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+            --shadow-accent: 0 0 20px rgba(168,85,247,0.3);
+
+            /* Tree */
+            --trunk-start: #2d1f3d;
+            --trunk-mid: #3d2b54;
+            --trunk-end: #1f1530;
+            --trunk-branch: #4a3560;
+            --tree-shadow: rgba(168,85,247,0.06);
+
+            /* Nav */
+            --nav-bg: rgba(255, 255, 255, 0.03);
+            --nav-blur: 24px;
+
+            /* Mesh gradient */
+            --mesh-1: rgba(168, 85, 247, 0.08);
+            --mesh-2: rgba(6, 182, 212, 0.06);
+        }
+
+        [data-theme="light"] {
+            /* Backgrounds */
+            --bg-base: #f6f3ee;
+            --bg-surface: #ffffff;
+            --bg-surface-hover: #f0ede8;
+            --bg-elevated: #ffffff;
+            --bg-overlay: rgba(0, 0, 0, 0.3);
+            --bg-input: #f5f2ed;
+
+            /* Borders */
+            --border: #e5e0d8;
+            --border-strong: #d4cdc3;
+
+            /* Text */
+            --text-primary: #1a1a2e;
+            --text-secondary: #5a5a72;
+            --text-muted: #9a9aaf;
+            --text-inverse: #f1f5f9;
+
+            /* Accents */
+            --accent: #7c3aed;
+            --accent-light: #8b5cf6;
+            --accent-bg: #ede9fe;
+            --accent-border: rgba(124, 58, 237, 0.3);
+            --accent-glow: rgba(124, 58, 237, 0.08);
+            --secondary: #0891b2;
+            --secondary-bg: #ecfeff;
+            --secondary-glow: rgba(8, 145, 178, 0.06);
+
+            /* Semantic */
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-accent: 0 4px 16px rgba(124,58,237,0.15);
+
+            /* Tree */
+            --trunk-start: #8b6e4e;
+            --trunk-mid: #a0845c;
+            --trunk-end: #6d533a;
+            --trunk-branch: #8b7355;
+            --tree-shadow: rgba(0,0,0,0.06);
+
+            /* Nav */
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --nav-blur: 20px;
+
+            /* Mesh gradient */
+            --mesh-1: rgba(124, 58, 237, 0.04);
+            --mesh-2: rgba(8, 145, 178, 0.03);
         }
 
         body {
@@ -31,25 +131,24 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
-            /* Disable text selection to feel like an app */
             -webkit-user-select: none;
             user-select: none;
-            /* Prevent pull-to-refresh on mobile webviews */
             overscroll-behavior-y: none;
-            background-color: var(--bg-primary);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at 20% 50%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 20% 50%, var(--mesh-1) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 20%, var(--mesh-2) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Re-enable text selection for inputs and textareas */
         input, textarea {
             -webkit-user-select: text;
             user-select: text;
@@ -59,38 +158,34 @@
             font-family: 'Dancing Script', cursive;
         }
 
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        /* Hide scrollbar for IE, Edge and Firefox */
-        .no-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Pulse glow for interactive elements */
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 12px rgba(168, 85, 247, 0.2); }
-            50% { box-shadow: 0 0 24px rgba(168, 85, 247, 0.4); }
+            0%, 100% { box-shadow: 0 0 12px var(--accent-glow); }
+            50% { box-shadow: 0 0 24px var(--accent-border); }
         }
-        .glow-pulse {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
+        .glow-pulse { animation: pulse-glow 2s ease-in-out infinite; }
 
-        /* Fade-up entrance animation */
         @keyframes fade-up {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-up {
-            animation: fade-up 0.4s ease-out both;
-        }
+        .animate-fade-up { animation: fade-up 0.4s ease-out both; }
 
-        /* Smooth color transitions on all interactive elements */
-        button, a {
-            transition: all 0.2s ease;
-        }
+        button, a { transition: all 0.2s ease; }
+
+        /* Theme-aware utility overrides */
+        .t-surface { background: var(--bg-surface); }
+        .t-surface-hover:hover { background: var(--bg-surface-hover); }
+        .t-border { border-color: var(--border); }
+        .t-border-strong { border-color: var(--border-strong); }
+        .t-text { color: var(--text-primary); }
+        .t-text-secondary { color: var(--text-secondary); }
+        .t-text-muted { color: var(--text-muted); }
+        .t-accent { color: var(--accent); }
+        .t-accent-bg { background: var(--accent-bg); }
+        .t-input { background: var(--bg-input); }
     </style>
 <script type="importmap">
 {

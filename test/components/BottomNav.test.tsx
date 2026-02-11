@@ -28,19 +28,19 @@ describe('BottomNav', () => {
     expect(onViewChange).toHaveBeenCalledTimes(NAV_LABELS.length);
   });
 
-  it('highlights active view with purple theme', () => {
+  it('highlights active view with accent theme token', () => {
     const { rerender } = render(<BottomNav activeView="home" onViewChange={() => {}} />);
 
     const spiritBtn = screen.getByLabelText('Spirit');
-    expect(spiritBtn.className).toContain('text-purple-400');
+    expect(spiritBtn.className).toContain('text-[var(--accent)]');
 
     const diaryBtn = screen.getByLabelText('Diary');
-    expect(diaryBtn.className).toContain('text-slate-500');
+    expect(diaryBtn.className).toContain('text-[var(--text-muted)]');
 
     // Switch active to journal
     rerender(<BottomNav activeView="journal" onViewChange={() => {}} />);
 
-    expect(screen.getByLabelText('Spirit').className).toContain('text-slate-500');
-    expect(screen.getByLabelText('Diary').className).toContain('text-purple-400');
+    expect(screen.getByLabelText('Spirit').className).toContain('text-[var(--text-muted)]');
+    expect(screen.getByLabelText('Diary').className).toContain('text-[var(--accent)]');
   });
 });

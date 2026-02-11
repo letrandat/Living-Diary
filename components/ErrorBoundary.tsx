@@ -21,13 +21,14 @@ class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="fixed inset-0 flex items-center justify-center bg-[#0a0a0f] p-8">
+        <div className="fixed inset-0 flex items-center justify-center bg-[var(--bg-base)] p-8">
           <div className="text-center">
-            <h2 className="text-2xl font-black text-white mb-4">Something went wrong</h2>
-            <p className="text-slate-400 mb-6">The spirit needs a moment to recover.</p>
+            <h2 className="text-2xl font-black text-[var(--text-primary)] mb-4">Something went wrong</h2>
+            <p className="text-[var(--text-secondary)] mb-6">The spirit needs a moment to recover.</p>
             <button
               onClick={() => this.setState({ hasError: false })}
-              className="px-6 py-3 bg-purple-500 text-white rounded-2xl font-bold shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+              className="px-6 py-3 bg-[var(--accent)] text-[var(--text-inverse)] rounded-2xl font-bold"
+              style={{ boxShadow: 'var(--shadow-accent)' }}
             >
               Try Again
             </button>
