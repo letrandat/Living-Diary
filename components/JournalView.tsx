@@ -53,7 +53,7 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
   return (
     <div className="w-full h-full p-6 overflow-y-auto">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-black text-[var(--text-primary)] handwritten">Daily Roots</h2>
+        <h2 className="text-3xl font-black text-[var(--text-primary)] heading">Daily Roots</h2>
         <button
           onClick={() => setShowCalendar(!showCalendar)}
           className={`p-3 rounded-2xl transition-colors ${showCalendar ? 'bg-[var(--accent-bg)] text-[var(--accent)]' : 'bg-[var(--bg-surface)] text-[var(--text-secondary)]'}`}

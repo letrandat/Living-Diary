@@ -211,7 +211,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
       </div>
 
       <div className="mt-4 text-center z-10 pointer-events-none">
-        <h2 className="text-4xl font-black handwritten drop-shadow-sm" style={{ color: seasonTheme.accent }}>
+        <h2 className="text-4xl font-black heading drop-shadow-sm" style={{ color: seasonTheme.accent }}>
           {treeName}
         </h2>
         <div className="flex items-center justify-center gap-2 mt-1">

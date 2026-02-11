@@ -38,7 +38,7 @@ function ImageGen({ onGenerated }: ImageGenProps): ReactElement {
   return (
     <div className="w-full h-full p-6 flex flex-col">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-black text-[var(--text-primary)] handwritten">Spirit Forge</h2>
+        <h2 className="text-3xl font-black text-[var(--text-primary)] heading">Spirit Forge</h2>
         <p className="text-xs text-[var(--text-secondary)] font-bold uppercase tracking-widest mt-2">Manifest your diary into physical items</p>
       </div>
 

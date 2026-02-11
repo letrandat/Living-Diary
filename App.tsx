@@ -12,6 +12,7 @@ import AIChat from './components/AIChat';
 import ImageGen from './components/ImageGen';
 import Vault from './components/Vault';
 import TreeCollections from './components/TreeCollections';
+import SocialHub from './components/SocialHub';
 
 function App(): ReactElement {
   const [currentView, setCurrentView] = useState<ViewType>('home');
@@ -96,6 +97,7 @@ function App(): ReactElement {
           {currentView === 'gen' && <ImageGen onGenerated={handleOrnamentGenerated} />}
           {currentView === 'shop' && <Shop user={user} setUser={setUser} />}
           {currentView === 'vault' && <Vault user={user} />}
+          {currentView === 'social' && <SocialHub />}
           {currentView === 'collections' && <TreeCollections user={user} setUser={setUser} onBack={() => setCurrentView('home')} />}
         </main>
 

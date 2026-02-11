@@ -40,7 +40,7 @@ function TreeCollections({ user, setUser, onBack }: TreeCollectionsProps): React
         <ArrowLeft size={18} /> BACK
       </button>
 
-      <h2 className="text-3xl font-black text-[var(--text-primary)] mb-2">Collections</h2>
+      <h2 className="text-3xl font-black text-[var(--text-primary)] heading mb-2">Collections</h2>
       <p className="text-sm text-[var(--text-secondary)] mb-8">Choose the spirit that reflects your journey.</p>
 
       <div className="space-y-4">

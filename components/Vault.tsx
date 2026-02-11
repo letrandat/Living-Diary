@@ -12,7 +12,7 @@ function Vault({ user }: VaultProps): ReactElement {
     <div className="w-full h-full p-6 overflow-y-auto">
       <div className="flex items-center gap-4 mb-8">
         <div className="p-3 bg-[var(--accent-bg)] text-[var(--accent)] rounded-2xl shadow-lg"><Package size={20} /></div>
-        <h2 className="text-2xl font-black text-[var(--text-primary)]">Soul Vault</h2>
+        <h2 className="text-2xl font-black text-[var(--text-primary)] heading">Soul Vault</h2>
       </div>
 
       <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest mb-6">Your Ornament Collection ({user.ornaments.length})</p>

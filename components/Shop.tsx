@@ -67,7 +67,7 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
     <div className="w-full h-full p-6 overflow-y-auto">
       <div className="flex items-center gap-4 mb-10">
         <ShoppingCart size={32} className="text-[var(--accent)]" />
-        <h2 className="text-3xl font-bold text-[var(--text-primary)]">Green Market</h2>
+        <h2 className="text-3xl font-bold text-[var(--text-primary)] heading">Green Market</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
