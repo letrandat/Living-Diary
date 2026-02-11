@@ -22,27 +22,27 @@ export const DEFAULT_USER: UserProfile = {
 
 export const SEASON_COLORS = {
   [Season.SPRING]: {
-    bg: 'bg-pink-50',
-    sky: 'from-blue-200 to-pink-100',
-    leaves: '#ffb7c5', // Cherry blossom
-    accent: 'text-pink-600'
+    bg: 'bg-pink-950/20',
+    sky: 'from-[#0a0a0f] via-[#1a0a1f] to-[#0f0a1a]',
+    leaves: '#f9a8d4',
+    accent: 'text-pink-400'
   },
   [Season.SUMMER]: {
-    bg: 'bg-emerald-50',
-    sky: 'from-sky-400 to-blue-200',
-    leaves: '#2d5a27', // Lush green
-    accent: 'text-emerald-700'
+    bg: 'bg-emerald-950/20',
+    sky: 'from-[#0a0a0f] via-[#0a1a15] to-[#0a0f1a]',
+    leaves: '#34d399',
+    accent: 'text-emerald-400'
   },
   [Season.AUTUMN]: {
-    bg: 'bg-orange-50',
-    sky: 'from-orange-200 to-amber-100',
-    leaves: '#d97706', // Burnt orange
-    accent: 'text-orange-700'
+    bg: 'bg-orange-950/20',
+    sky: 'from-[#0a0a0f] via-[#1a0f0a] to-[#0f0a0a]',
+    leaves: '#fb923c',
+    accent: 'text-orange-400'
   },
   [Season.WINTER]: {
-    bg: 'bg-slate-100',
-    sky: 'from-indigo-300 to-slate-200',
-    leaves: '#e2e8f0', // Snow-covered
-    accent: 'text-indigo-800'
+    bg: 'bg-slate-950/20',
+    sky: 'from-[#0a0a0f] via-[#0a0a1f] to-[#0f0a1a]',
+    leaves: '#94a3b8',
+    accent: 'text-slate-300'
   }
 };

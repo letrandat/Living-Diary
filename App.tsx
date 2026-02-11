@@ -60,7 +60,7 @@ function App(): ReactElement {
   return (
     <div className={`fixed inset-0 w-full transition-colors duration-1000 bg-gradient-to-b ${theme.sky} overflow-hidden`}>
       <div className="relative z-10 h-full flex flex-col">
-        <main className="flex-1 relative overflow-y-auto no-scrollbar pb-28 pt-[env(safe-area-inset-top)]">
+        <main className="flex-1 relative overflow-y-auto no-scrollbar pb-24 pt-[env(safe-area-inset-top)]">
           {currentView === 'home' && (
             <TreeScene
               season={season}
