@@ -46,7 +46,7 @@ function AIChat({ entries }: AIChatProps): ReactElement {
     <div className="w-full h-full flex flex-col p-6">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-3 bg-[var(--accent-bg)] text-[var(--accent)] rounded-2xl shadow-lg"><Sparkles size={20} /></div>
-        <h2 className="text-xl font-black text-[var(--text-primary)]">Arboria Guide</h2>
+        <h2 className="text-xl font-black text-[var(--text-primary)] heading">Arboria Guide</h2>
       </div>
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-4 pr-2">
@@ -57,6 +57,15 @@ function AIChat({ entries }: AIChatProps): ReactElement {
             </div>
           </div>
         ))}
+        {isTyping && (
+          <div className="flex justify-start">
+            <div className="bg-[var(--bg-surface)] rounded-3xl rounded-tl-none border border-[var(--border)] p-4 flex gap-1.5">
+              <span className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="w-2 h-2 bg-[var(--text-muted)] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="mt-4 flex gap-2">
@@ -67,7 +76,7 @@ function AIChat({ entries }: AIChatProps): ReactElement {
           placeholder="Whisper to the spirit..."
           className="flex-1 p-4 bg-[var(--bg-surface)] rounded-2xl border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-[var(--accent-border)] outline-none"
         />
-        <button onClick={handleSend} className="p-4 bg-[var(--accent)] text-[var(--text-inverse)] rounded-2xl" style={{ boxShadow: 'var(--shadow-accent)' }}><Send size={20} /></button>
+        <button onClick={handleSend} aria-label="Send message" className="p-4 bg-[var(--accent)] text-[var(--text-inverse)] rounded-2xl" style={{ boxShadow: 'var(--shadow-accent)' }}><Send size={20} /></button>
       </div>
     </div>
   );

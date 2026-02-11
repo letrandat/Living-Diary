@@ -23,13 +23,13 @@ const LEADERBOARD = [
   { rank: 3, name: 'Seedling99', level: 12 },
 ];
 
-function getAvatarColor(name: string): string {
+function getAvatarColor(name: string): { bg: string; text: string } {
   const colors = [
-    'bg-purple-500/20 text-purple-400',
-    'bg-cyan-500/20 text-cyan-400',
-    'bg-pink-500/20 text-pink-400',
-    'bg-amber-500/20 text-amber-400',
-    'bg-emerald-500/20 text-emerald-400',
+    { bg: 'var(--accent-bg)', text: 'var(--accent)' },
+    { bg: 'var(--secondary-bg)', text: 'var(--secondary)' },
+    { bg: 'var(--color-sakura-bg)', text: 'var(--color-sakura)' },
+    { bg: 'var(--color-oak-bg)', text: 'var(--color-oak)' },
+    { bg: 'var(--color-willow-bg)', text: 'var(--color-willow)' },
   ];
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
@@ -97,7 +97,10 @@ function SocialHub(): ReactElement {
                 className="bg-[var(--bg-surface)] p-5 rounded-3xl border border-[var(--border)] transition-all active:scale-[0.99]"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-sm ${getAvatarColor(post.user)}`}>
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm"
+                    style={{ background: getAvatarColor(post.user).bg, color: getAvatarColor(post.user).text }}
+                  >
                     {post.user[0]}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -124,6 +127,8 @@ function SocialHub(): ReactElement {
                 <div className="flex items-center gap-5">
                   <button
                     onClick={() => toggleLike(post.id)}
+                    data-testid={`like-${post.id}`}
+                    aria-label={`Like ${post.user}'s post`}
                     className={`flex items-center gap-1.5 text-sm transition-colors ${isLiked ? 'text-pink-400' : 'text-[var(--text-muted)] hover:text-pink-400'}`}
                   >
                     <Heart size={16} fill={isLiked ? 'currentColor' : 'none'} />
@@ -182,7 +187,10 @@ function SocialHub(): ReactElement {
                 <span className="text-lg font-black text-[var(--text-muted)] w-6 text-center">
                   {getMedal(gardener.rank)}
                 </span>
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm ${getAvatarColor(gardener.name)}`}>
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm"
+                  style={{ background: getAvatarColor(gardener.name).bg, color: getAvatarColor(gardener.name).text }}
+                >
                   {gardener.name[0]}
                 </div>
                 <span className="flex-1 text-sm font-bold text-[var(--text-primary)]">{gardener.name}</span>

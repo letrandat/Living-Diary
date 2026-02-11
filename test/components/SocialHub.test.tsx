@@ -23,15 +23,16 @@ describe('SocialHub', () => {
   it('toggles like on posts', () => {
     render(<SocialHub />);
 
-    // FloraGazer has 24 likes initially
-    expect(screen.getByText('24')).toBeInTheDocument();
+    // Use data-testid for robust selection
+    const likeBtn = screen.getByTestId('like-1');
+    expect(likeBtn).toHaveTextContent('24');
 
-    // Find the like button for the first post (contains Heart icon)
-    const likeButtons = screen.getAllByText('24');
-    fireEvent.click(likeButtons[0].closest('button')!);
+    fireEvent.click(likeBtn);
+    expect(likeBtn).toHaveTextContent('25');
 
-    // Should now show 25
-    expect(screen.getByText('25')).toBeInTheDocument();
+    // Toggle back
+    fireEvent.click(likeBtn);
+    expect(likeBtn).toHaveTextContent('24');
   });
 
   it('filters posts by search query', () => {

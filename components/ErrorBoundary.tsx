@@ -23,7 +23,7 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="fixed inset-0 flex items-center justify-center bg-[var(--bg-base)] p-8">
           <div className="text-center">
-            <h2 className="text-2xl font-black text-[var(--text-primary)] mb-4">Something went wrong</h2>
+            <h2 className="text-2xl font-black text-[var(--text-primary)] heading mb-4">Something went wrong</h2>
             <p className="text-[var(--text-secondary)] mb-6">The spirit needs a moment to recover.</p>
             <button
               onClick={() => this.setState({ hasError: false })}
