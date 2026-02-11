@@ -20,6 +20,12 @@ export const DEFAULT_USER: UserProfile = {
   ornaments: []
 };
 
+interface SeasonTheme {
+  sky: string;
+  leaves: string;
+  accent: string;
+}
+
 export const SEASON_COLORS: Record<Season, { dark: SeasonTheme; light: SeasonTheme }> = {
   [Season.SPRING]: {
     dark: { sky: 'from-[#0a0a0f] via-[#1a0a1f] to-[#0f0a1a]', leaves: '#f9a8d4', accent: 'text-pink-400' },
@@ -38,9 +44,3 @@ export const SEASON_COLORS: Record<Season, { dark: SeasonTheme; light: SeasonThe
     light: { sky: 'from-[#f8fafc] via-[#e2e8f0] to-[#f1f5f9]', leaves: '#64748b', accent: 'text-slate-600' },
   },
 };
-
-interface SeasonTheme {
-  sky: string;
-  leaves: string;
-  accent: string;
-}

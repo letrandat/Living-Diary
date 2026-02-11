@@ -1,6 +1,6 @@
 
 import { useState, type ReactElement } from 'react';
-import { Send, Calendar as CalendarIcon, Hash, Trees, X } from 'lucide-react';
+import { Send, Calendar as CalendarIcon, Trees, X } from 'lucide-react';
 import { JournalEntry } from '../types';
 
 interface JournalViewProps {
@@ -47,7 +47,8 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
     setContent('');
   }
 
-  const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+  const now = new Date();
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
 
   return (
     <div className="w-full h-full p-6 overflow-y-auto">
@@ -126,13 +127,10 @@ function JournalView({ entries, currentTreeTypeId, userId, onAddEntry }: Journal
           placeholder="Speak to your tree..."
           className="w-full h-40 bg-transparent border-none focus:ring-0 text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none font-medium"
         />
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex gap-2">
-            <div className="p-2 bg-[var(--bg-surface-hover)] rounded-full text-[var(--accent)]"><Hash size={16} /></div>
-          </div>
+        <div className="flex items-center justify-end mt-4">
           <button
             onClick={handleSubmit}
-            className="px-6 py-3 bg-[var(--accent)] text-white rounded-2xl font-black flex items-center gap-2"
+            className="px-6 py-3 bg-[var(--accent)] text-[var(--text-inverse)] rounded-2xl font-black flex items-center gap-2"
             style={{ boxShadow: 'var(--shadow-accent)' }}
           >
             PLANT <Send size={16} />

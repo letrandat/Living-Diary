@@ -65,7 +65,7 @@ function AIChat({ entries }: AIChatProps): ReactElement {
           placeholder="Whisper to the spirit..."
           className="flex-1 p-4 bg-[var(--bg-surface)] rounded-2xl border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-[var(--accent-border)] outline-none"
         />
-        <button onClick={handleSend} className="p-4 bg-[var(--accent)] text-white rounded-2xl" style={{ boxShadow: 'var(--shadow-accent)' }}><Send size={20} /></button>
+        <button onClick={handleSend} className="p-4 bg-[var(--accent)] text-[var(--text-inverse)] rounded-2xl" style={{ boxShadow: 'var(--shadow-accent)' }}><Send size={20} /></button>
       </div>
     </div>
   );

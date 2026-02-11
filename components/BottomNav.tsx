@@ -1,8 +1,7 @@
 
 import type { ReactElement } from 'react';
-import { Trees, PenTool, MessageCircle, Sparkles, Briefcase, ShoppingBag, Sun, Moon } from 'lucide-react';
+import { Trees, PenTool, MessageCircle, Sparkles, Briefcase, ShoppingBag } from 'lucide-react';
 import { ViewType } from '../types';
-import { useTheme } from '../hooks/useTheme';
 
 interface BottomNavProps {
   activeView: ViewType;
@@ -19,7 +18,6 @@ const NAV_ITEMS: { id: ViewType; icon: typeof Trees; label: string }[] = [
 ];
 
 function BottomNav({ activeView, onViewChange }: BottomNavProps): ReactElement {
-  const { theme, toggleTheme } = useTheme();
   return (
     <nav
       className="fixed bottom-4 left-4 right-4 mx-auto max-w-[420px] bg-[var(--nav-bg)] backdrop-blur-2xl border border-[var(--border)] rounded-2xl z-50 px-4 py-3"
@@ -47,13 +45,6 @@ function BottomNav({ activeView, onViewChange }: BottomNavProps): ReactElement {
             </button>
           );
         })}
-        <button
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-          className="flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 text-[var(--text-muted)]"
-        >
-          {theme === 'dark' ? <Sun size={22} strokeWidth={2} /> : <Moon size={22} strokeWidth={2} />}
-        </button>
       </div>
     </nav>
   );

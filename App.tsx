@@ -25,8 +25,9 @@ function App(): ReactElement {
   useEffect(() => {
     const growthInterval = setInterval(() => {
       setVisualLevel(prev => {
-        if (prev < user.treeLevel) return Math.min(user.treeLevel, prev + 0.02);
-        return prev;
+        const next = Math.min(user.treeLevel, prev + 0.02);
+        if (next >= user.treeLevel) clearInterval(growthInterval);
+        return next;
       });
     }, 2000);
     return () => clearInterval(growthInterval);

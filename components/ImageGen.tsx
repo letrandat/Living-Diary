@@ -29,10 +29,10 @@ function ImageGen({ onGenerated }: ImageGenProps): ReactElement {
       }
     } catch {
       setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+      setPrompt('');
     }
-
-    setLoading(false);
-    setPrompt('');
   }
 
   return (

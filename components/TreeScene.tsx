@@ -1,7 +1,8 @@
 
 import { useMemo, type ReactElement } from 'react';
 import { Season, UserProfile } from '../types';
-import { Droplets, Sprout, LayoutGrid } from 'lucide-react';
+import { Droplets, Sprout, LayoutGrid, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../hooks/useTheme';
 
 interface TreeSceneProps {
   season: Season;
@@ -22,6 +23,7 @@ function seededRandom(seed: number): () => number {
 }
 
 function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onOpenCollections }: TreeSceneProps): ReactElement {
+  const { theme, toggleTheme } = useTheme();
   const health = user.treeHealth;
 
   const trunkBaseY = 340;
@@ -59,7 +61,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
     return { branches, leaves };
   }, [level, health, trunkTopY]);
 
-  const treeName = user.unlockedTreeTypes.find(t => t === user.currentTreeTypeId)?.toUpperCase() || 'MY TREE';
+  const treeName = user.currentTreeTypeId.toUpperCase() || 'MY TREE';
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-start pt-24 relative overflow-hidden">
@@ -128,12 +130,14 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
         </button>
       </div>
 
-      <button
-        onClick={onOpenCollections}
-        className="absolute top-4 left-4 mt-[env(safe-area-inset-top,0px)] p-3 bg-[var(--bg-surface)] backdrop-blur-2xl rounded-2xl shadow-lg border border-[var(--border)] text-[var(--accent)] active:scale-90 transition-transform"
-      >
-        <LayoutGrid size={20} />
-      </button>
+      <div className="absolute top-4 left-4 mt-[env(safe-area-inset-top,0px)] flex flex-col gap-2">
+        <button onClick={onOpenCollections} className="p-3 bg-[var(--bg-surface)] backdrop-blur-2xl rounded-2xl border border-[var(--border)] text-[var(--accent)] active:scale-90 transition-transform" style={{ boxShadow: 'var(--shadow-sm)' }}>
+          <LayoutGrid size={20} />
+        </button>
+        <button onClick={toggleTheme} aria-label="Toggle theme" className="p-3 bg-[var(--bg-surface)] backdrop-blur-2xl rounded-2xl border border-[var(--border)] text-[var(--text-muted)] active:scale-90 transition-transform" style={{ boxShadow: 'var(--shadow-sm)' }}>
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+      </div>
 
       <div className="relative w-full max-w-sm h-[55vh] flex items-end justify-center pointer-events-none">
         <svg viewBox="0 0 200 400" className="w-full h-full drop-shadow-2xl overflow-visible">
@@ -154,7 +158,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
                 key={i}
                 x1={b.x1} y1={b.y1} x2={b.x2} y2={b.y2}
                 stroke="var(--trunk-branch)"
-                strokeWidth={3 + (level * 0.5)}
+                strokeWidth={3 + level * 0.5}
                 strokeLinecap="round"
                 className="transition-all duration-1000"
               />
@@ -165,7 +169,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
             d={`M100,${trunkBaseY} L100,${trunkTopY}`}
             fill="none"
             stroke="url(#trunkGradient)"
-            strokeWidth={10 + (level * 2)}
+            strokeWidth={10 + level * 2}
             strokeLinecap="round"
             className="trunk-grow"
           />
@@ -198,7 +202,7 @@ function TreeScene({ season, seasonTheme, user, level, onWater, onFertilize, onO
                 animationDelay: `${i * 0.2}s`
               }}
             >
-              <img src={orn.url} alt={orn.name} className="w-full h-full rounded-full border-2 border-white/20 shadow-[0_0_12px_rgba(168,85,247,0.2)] transform hover:scale-125 transition-transform" />
+              <img src={orn.url} alt={orn.name} className="w-full h-full rounded-full border-2 border-[var(--border)] shadow-[0_0_12px_var(--accent-glow)] transform hover:scale-125 transition-transform" />
             </div>
           ))}
         </div>

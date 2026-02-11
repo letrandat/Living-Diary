@@ -28,20 +28,11 @@ describe('Shop', () => {
     const buyButtons = screen.getAllByRole('button').filter(btn => btn.textContent?.includes('200'));
     fireEvent.click(buyButtons[0]);
 
-    // The setUser functional updater should have been called
-    expect(mockSetUser).toHaveBeenCalledTimes(1);
+    // setUser should NOT be called — early return before state update
+    expect(mockSetUser).not.toHaveBeenCalled();
 
-    // Extract the updater function and call it with poorUser to trigger the toast setTimeout
-    const updater = mockSetUser.mock.calls[0][0];
-    const result = updater(poorUser);
-
-    // Should return prev (unchanged) when insufficient dewdrops
-    expect(result).toEqual(poorUser);
-
-    // Wait for the toast to appear (setTimeout inside the updater)
-    await waitFor(() => {
-      expect(screen.getByText(/Not enough dewdrops/)).toBeInTheDocument();
-    });
+    // Toast appears directly (no setTimeout needed)
+    expect(screen.getByText(/Not enough dewdrops/)).toBeInTheDocument();
   });
 
   it('Golden Fertilizer purchase increases treeLevel', async () => {

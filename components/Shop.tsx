@@ -25,12 +25,12 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
   }, [toast]);
 
   function handleBuy(id: string, cost: number): void {
-    setUser(prev => {
-      if (prev.dewdrops < cost) {
-        setTimeout(() => setToast("Not enough dewdrops! Try journaling more to earn more."), 0);
-        return prev;
-      }
+    if (user.dewdrops < cost) {
+      setToast("Not enough dewdrops! Try journaling more to earn more.");
+      return;
+    }
 
+    setUser(prev => {
       const updated = { ...prev, dewdrops: prev.dewdrops - cost };
 
       switch (id) {
@@ -58,9 +58,9 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
         }
       }
 
-      setTimeout(() => setToast("Purchase successful! Arboria thanks you."), 0);
       return updated;
     });
+    setToast("Purchase successful! Arboria thanks you.");
   }
 
   return (
@@ -81,7 +81,7 @@ function Shop({ user, setUser }: ShopProps): ReactElement {
               <p className="text-sm text-[var(--text-secondary)] mt-1">{item.desc}</p>
               <button
                 onClick={() => handleBuy(item.id, item.cost)}
-                className="mt-4 bg-[var(--accent-bg)] text-[var(--accent-light)] px-6 py-2 rounded-full font-bold text-sm hover:bg-[var(--accent-bg)] border border-[var(--accent-border)] transition-colors flex items-center gap-2"
+                className="mt-4 bg-[var(--accent-bg)] text-[var(--accent-light)] px-6 py-2 rounded-full font-bold text-sm border border-[var(--accent-border)] transition-colors flex items-center gap-2"
               >
                 <span>💧 {item.cost}</span>
               </button>
