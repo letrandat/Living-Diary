@@ -19,12 +19,16 @@ function ImageGen({ onGenerated }: ImageGenProps): ReactElement {
     setLoading(true);
     setError(null);
 
-    const url = await generateOrnament(prompt, '1K');
-    if (url) {
-      setLastImage(url);
-      onGenerated({ id: `ORN-${Date.now()}`, url, name: prompt, date: new Date().toISOString() });
-    } else {
-      setError('Failed to forge ornament. Try a different description.');
+    try {
+      const url = await generateOrnament(prompt, '1K');
+      if (url) {
+        setLastImage(url);
+        onGenerated({ id: `ORN-${Date.now()}`, url, name: prompt, date: new Date().toISOString() });
+      } else {
+        setError('Failed to forge ornament. Try a different description.');
+      }
+    } catch {
+      setError('Something went wrong. Please try again.');
     }
 
     setLoading(false);

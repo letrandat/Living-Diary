@@ -34,7 +34,7 @@ function AIChat({ entries }: AIChatProps): ReactElement {
       const response = await chatWithSpirit(messages, text, entries);
       setMessages(prev => [...prev, { role: 'model' as const, text: response }].slice(-50));
     } catch {
-      setMessages(prev => [...prev, { role: 'model', text: 'The spirit is fading... try again later.' }]);
+      setMessages(prev => [...prev, { role: 'model' as const, text: 'The spirit is fading... try again later.' }]);
     } finally {
       setIsTyping(false);
     }

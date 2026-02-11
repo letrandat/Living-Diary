@@ -68,6 +68,29 @@
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
         }
+
+        /* Pulse glow for interactive elements */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 12px rgba(168, 85, 247, 0.2); }
+            50% { box-shadow: 0 0 24px rgba(168, 85, 247, 0.4); }
+        }
+        .glow-pulse {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* Fade-up entrance animation */
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fade-up 0.4s ease-out both;
+        }
+
+        /* Smooth color transitions on all interactive elements */
+        button, a {
+            transition: all 0.2s ease;
+        }
     </style>
 <script type="importmap">
 {

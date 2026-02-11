@@ -47,4 +47,4 @@ export interface Message {
 
 export type ImageSize = '1K' | '2K' | '4K';
 
-export type ViewType = 'home' | 'journal' | 'social' | 'shop' | 'chat' | 'gen' | 'vault' | 'collections';
+export type ViewType = 'home' | 'journal' | 'shop' | 'chat' | 'gen' | 'vault' | 'collections';
